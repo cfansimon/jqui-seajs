@@ -1,0 +1,148 @@
+.panel {
+  overflow: hidden;
+  font-size: 12px;
+  text-align: left;
+}
+
+.panel-header,
+.panel-body {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.panel-header {
+  padding: 5px;
+  position: relative;
+}
+
+.panel-title {
+  background: 0 0;
+}
+
+.panel-header-noborder {
+  border-width: 0 0 1px 0;
+}
+
+.panel-body {
+  overflow: auto;
+  border-top-width: 0;
+}
+
+.panel-body-noheader {
+  border-top-width: 1px;
+}
+
+.panel-body-noborder {
+  border-width: 0;
+}
+
+.panel-with-icon {
+  padding-left: 18px;
+}
+
+.panel-icon,
+.panel-tool {
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  height: 16px;
+  overflow: hidden;
+}
+
+.panel-icon {
+  left: 5px;
+  width: 16px;
+}
+
+.panel-tool {
+  right: 5px;
+  width: auto;
+}
+
+.panel-tool a {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  opacity: .6;
+  margin: 0 0 0 2px;
+  vertical-align: top;
+}
+
+.panel-tool a:hover {
+  opacity: 1;
+  background-color: #e6e6e6;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-radius: 3px 3px 3px 3px;
+  border-radius: 3px 3px 3px 3px;
+}
+
+.panel-loading {
+  padding: 11px 0 10px 30px;
+}
+
+.panel-noscroll {
+  overflow: hidden;
+}
+
+.panel-fit,
+.panel-fit body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+}
+
+.panel-loading {
+  background: url(data:image/gif;base64,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) no-repeat 10px 10px;
+}
+
+.panel-tool-close {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAiUlEQVR42u2YSwqAMAwFeytv5g09l+LOhZ/a92wamQE3hYYMTeVpKQBgZZqXdX9q14cVODZ7tpZGQmk+VNrVfJiE0oDrBENG6GpvdQ21QPgldgmkfY0CAMA/8ryaR8LyDAIPtbsIKA3ciSv7X6XRLwQckbrbCThGp3l0RxFojuDOD5p0fyMAErIB7kio3inCu1EAAAAASUVORK5CYII=) no-repeat -16px 0;
+}
+
+.panel-tool-min {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAiUlEQVR42u2YSwqAMAwFeytv5g09l+LOhZ/a92wamQE3hYYMTeVpKQBgZZqXdX9q14cVODZ7tpZGQmk+VNrVfJiE0oDrBENG6GpvdQ21QPgldgmkfY0CAMA/8ryaR8LyDAIPtbsIKA3ciSv7X6XRLwQckbrbCThGp3l0RxFojuDOD5p0fyMAErIB7kio3inCu1EAAAAASUVORK5CYII=) no-repeat 0 0;
+}
+
+.panel-tool-max {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAiUlEQVR42u2YSwqAMAwFeytv5g09l+LOhZ/a92wamQE3hYYMTeVpKQBgZZqXdX9q14cVODZ7tpZGQmk+VNrVfJiE0oDrBENG6GpvdQ21QPgldgmkfY0CAMA/8ryaR8LyDAIPtbsIKA3ciSv7X6XRLwQckbrbCThGp3l0RxFojuDOD5p0fyMAErIB7kio3inCu1EAAAAASUVORK5CYII=) no-repeat 0 -16px;
+}
+
+.panel-tool-restore {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAiUlEQVR42u2YSwqAMAwFeytv5g09l+LOhZ/a92wamQE3hYYMTeVpKQBgZZqXdX9q14cVODZ7tpZGQmk+VNrVfJiE0oDrBENG6GpvdQ21QPgldgmkfY0CAMA/8ryaR8LyDAIPtbsIKA3ciSv7X6XRLwQckbrbCThGp3l0RxFojuDOD5p0fyMAErIB7kio3inCu1EAAAAASUVORK5CYII=) no-repeat -16px -16px;
+}
+
+.panel-tool-collapse {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAiUlEQVR42u2YSwqAMAwFeytv5g09l+LOhZ/a92wamQE3hYYMTeVpKQBgZZqXdX9q14cVODZ7tpZGQmk+VNrVfJiE0oDrBENG6GpvdQ21QPgldgmkfY0CAMA/8ryaR8LyDAIPtbsIKA3ciSv7X6XRLwQckbrbCThGp3l0RxFojuDOD5p0fyMAErIB7kio3inCu1EAAAAASUVORK5CYII=) no-repeat -32px 0;
+}
+
+.panel-tool-expand {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAiUlEQVR42u2YSwqAMAwFeytv5g09l+LOhZ/a92wamQE3hYYMTeVpKQBgZZqXdX9q14cVODZ7tpZGQmk+VNrVfJiE0oDrBENG6GpvdQ21QPgldgmkfY0CAMA/8ryaR8LyDAIPtbsIKA3ciSv7X6XRLwQckbrbCThGp3l0RxFojuDOD5p0fyMAErIB7kio3inCu1EAAAAASUVORK5CYII=) no-repeat -32px -16px;
+}
+
+.panel-header,
+.panel-body {
+  border-color: #D4D4D4;
+}
+
+.panel-header {
+  background-color: #F2F2F2;
+  background: -webkit-linear-gradient(top,#fff 0,#F2F2F2 100%);
+  background: -moz-linear-gradient(top,#fff 0,#F2F2F2 100%);
+  background: -o-linear-gradient(top,#fff 0,#F2F2F2 100%);
+  background: linear-gradient(to bottom,#fff 0,#F2F2F2 100%);
+  background-repeat: repeat-x;
+}
+
+.panel-body {
+  background-color: #fff;
+  color: #333;
+}
+
+.panel-title {
+  font-weight: 700;
+  color: #777;
+  height: 20px;
+  line-height: 20px;
+}

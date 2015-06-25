@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Multiple ComboTree - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../_icon.css">
+	<link rel="stylesheet" type="text/css" href="../_demo.css">
+	<script type="text/javascript" src="../_libs/seajs/seajs/2.2.1/sea.js"></script>
+	<script type="text/javascript" src="../_libs/seajs/seajs-style/1.0.2/seajs-style.js"></script>
+	<script type="text/javascript" src="../_libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../_libs/seajs-global-config.js"></script>
+</head>
+<body>
+	<h2>Multiple ComboTree</h2>
+	<p>Click the right arrow button to show the tree panel and select multiple nodes.</p>
+	<div style="margin:20px 0">
+		<span>Cascade Check: </span>
+		<input type="checkbox" checked onclick="$('#cc').combotree({cascadeCheck:$(this).is(':checked')})">
+	</div>
+	<select id="cc" class="jq-combotree" data-options="url:'tree_data1.json',method:'get'" multiple style="width:200px;"></select>
+	<script type="text/javascript">
+		seajs.use(['jqui.combotree'], function() {
+
+			$('.jq-combotree').combotree();
+			
+		});
+
+	</script>
+</body>
+</html>

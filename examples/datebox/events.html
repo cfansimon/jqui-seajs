@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>DateBox Events - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../_icon.css">
+	<link rel="stylesheet" type="text/css" href="../_demo.css">
+	<script type="text/javascript" src="../_libs/seajs/seajs/2.2.1/sea.js"></script>
+	<script type="text/javascript" src="../_libs/seajs/seajs-style/1.0.2/seajs-style.js"></script>
+	<script type="text/javascript" src="../_libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../_libs/seajs-global-config.js"></script>
+</head>
+<body>
+	<h2>DateBox Events</h2>
+	<p>Click the calendar image on the right side.</p>
+	<div style="margin:20px 0;"></div>
+	<input class="jq-datebox" data-options="onSelect:onSelect"></input>
+	<div style="margin:10px 0">
+		<span>Selected Date: </span>
+		<span id="result"></span>
+	</div>
+	<script type="text/javascript">
+		seajs.use(['jqui.databox'], function() {
+
+			$('.jq-databox').databox();
+			
+		});
+
+	</script>
+	<script>
+		function onSelect(date){
+			$('#result').text(date)
+		}
+	</script>
+</body>
+</html>

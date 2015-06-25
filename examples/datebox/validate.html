@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Validate DateBox - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../_icon.css">
+	<link rel="stylesheet" type="text/css" href="../_demo.css">
+	<script type="text/javascript" src="../_libs/seajs/seajs/2.2.1/sea.js"></script>
+	<script type="text/javascript" src="../_libs/seajs/seajs-style/1.0.2/seajs-style.js"></script>
+	<script type="text/javascript" src="../_libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../_libs/seajs-global-config.js"></script>
+</head>
+<body>
+	<h2>Validate DateBox</h2>
+	<p>When the selected date is greater than specified date. The field validator will raise an error.</p>
+	<div style="margin:20px 0;"></div>
+	<input class="jq-datebox" required data-options="validType:'md[\'10/11/2012\']'"></input>
+	<script type="text/javascript">
+		seajs.use(['jqui.databox','jqui.validatebox'], function() {
+
+			$('.jq-databox').databox();
+			
+			$.extend($.fn.validatebox.defaults.rules, {
+				md: {
+					validator: function(value, param){
+						var d1 = $.fn.datebox.defaults.parser(param[0]);
+						var d2 = $.fn.datebox.defaults.parser(value);
+						return d2<=d1;
+					},
+					message: 'The date must be less than or equals to {0}.'
+				}
+			})
+
+		});
+
+	</script>
+</body>
+</html>

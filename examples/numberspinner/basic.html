@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Basic NumberSpinner - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../_icon.css">
+	<link rel="stylesheet" type="text/css" href="../_demo.css">
+	<script type="text/javascript" src="../_libs/seajs/seajs/2.2.1/sea.js"></script>
+	<script type="text/javascript" src="../_libs/seajs/seajs-style/1.0.2/seajs-style.js"></script>
+	<script type="text/javascript" src="../_libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../_libs/seajs-global-config.js"></script>
+</head>
+<body>
+	<h2>Basic NumberSpinner</h2>
+	<p>Click spinner button to change value.</p>
+	<div style="margin:20px 0;"></div>
+	<input class="jq-numberspinner" style="width:80px;" data-options="
+				onChange: function(value){
+					$('#vv').text(value);
+				}
+			"></input>
+	<div style="margin:10px 0;">
+		Value: <span id="vv"></span>
+	</div>
+</body>
+</html>

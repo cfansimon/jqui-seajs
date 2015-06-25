@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Load Dynamic ComboBox Data - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../_icon.css">
+	<link rel="stylesheet" type="text/css" href="../_demo.css">
+	<script type="text/javascript" src="../_libs/seajs/seajs/2.2.1/sea.js"></script>
+	<script type="text/javascript" src="../_libs/seajs/seajs-style/1.0.2/seajs-style.js"></script>
+	<script type="text/javascript" src="../_libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../_libs/seajs-global-config.js"></script>
+</head>
+<body>
+	<h2>Load Dynamic ComboBox Data</h2>
+	<p>Click the button below to load data.</p>
+	
+	<div style="margin:20px 0;">
+		<a href="javascript:void(0)" class="jq-linkbutton" onclick="$('#language').combobox('reload', 'combobox_data1.json')">LoadData</a>
+	</div>
+
+	<input class="jq-combobox" id="language" name="language"
+			data-options="valueField:'id',textField:'text'">
+	<script type="text/javascript">
+		seajs.use(['jqui.combobox'], function() {
+
+			$('.jq-combobox').combobox();
+			
+		});
+		
+	</script>
+</body>
+</html>
