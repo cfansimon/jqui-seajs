@@ -10,7 +10,6 @@
 require('./parser');
 require('./combo.css');
 require('./panel');
-require('./validatebox');
 
 (function($) {
     function _1(_2, _3) {
@@ -60,6 +59,7 @@ require('./validatebox');
             },
             onOpen: function() {
                 var p = $(this).panel("panel");
+                // @todo
                 if ($.fn.menu) {
                     p.css("z-index", $.fn.menu.defaults.zIndex++);
                 } else {
@@ -90,26 +90,24 @@ require('./validatebox');
         };
     };
 
-    function _11(_12) {
-        var _13 = $.data(_12, "combo");
-        var _14 = _13.options;
-        var _15 = _13.combo;
-        if (_14.hasDownArrow) {
-            _15.find(".combo-arrow").show();
+    function _11(target) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        var cb = combo.combo;
+        if (opts.hasDownArrow) {
+            cb.find(".combo-arrow").show();
         } else {
-            _15.find(".combo-arrow").hide();
+            cb.find(".combo-arrow").hide();
         }
-        _16(_12, _14.disabled);
-        _17(_12, _14.readonly);
+        setDisabled(target, opts.disabled);
+        setReadonly(target, opts.readonly);
     };
 
-    function _18(_19) {
-        var _1a = $.data(_19, "combo");
-        var _1b = _1a.combo.find("input.combo-text");
-        _1b.validatebox("destroy");
-        _1a.panel.panel("destroy");
-        _1a.combo.remove();
-        $(_19).remove();
+    function _18(target) {
+        var combo = $.data(target, "combo");
+        combo.panel.panel("destroy");
+        combo.combo.remove();
+        $(target).remove();
     };
 
     function _1c(_1d) {
@@ -121,13 +119,13 @@ require('./validatebox');
         });
     };
 
-    function _1e(_1f) {
-        var _20 = $.data(_1f, "combo");
-        var _21 = _20.options;
-        var _22 = _20.panel;
-        var _23 = _20.combo;
-        var _24 = _23.find(".combo-text");
-        var _25 = _23.find(".combo-arrow");
+    function _1e(target) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        var panel = combo.panel;
+        var cb = combo.combo;
+        var comboText = cb.find(".combo-text");
+        var comboArrow = cb.find(".combo-arrow");
         $(document).unbind(".combo").bind("mousedown.combo", function(e) {
             var p = $(e.target).closest("span.combo,div.combo-p");
             if (p.length) {
@@ -136,56 +134,55 @@ require('./validatebox');
             }
             $("body>div.combo-p>div.combo-panel:visible").panel("close");
         });
-        _24.unbind(".combo");
-        _25.unbind(".combo");
-        if (!_21.disabled && !_21.readonly) {
-            _24.bind("click.combo", function(e) {
-                if (!_21.editable) {
+        comboText.unbind(".combo");
+        comboArrow.unbind(".combo");
+        if (!opts.disabled && !opts.readonly) {
+            comboText.bind("click.combo", function(e) {
+                if (!opts.editable) {
                     _26.call(this);
                 } else {
                     var p = $(this).closest("div.combo-panel");
-                    $("div.combo-panel:visible").not(_22).not(p).panel("close");
+                    $("div.combo-panel:visible").not(panel).not(p).panel("close");
                 }
             }).bind("keydown.combo paste.combo drop.combo", function(e) {
                 switch (e.keyCode) {
                     case 38:
-                        _21.keyHandler.up.call(_1f, e);
+                        opts.keyHandler.up.call(target, e);
                         break;
                     case 40:
-                        _21.keyHandler.down.call(_1f, e);
+                        opts.keyHandler.down.call(target, e);
                         break;
                     case 37:
-                        _21.keyHandler.left.call(_1f, e);
+                        opts.keyHandler.left.call(target, e);
                         break;
                     case 39:
-                        _21.keyHandler.right.call(_1f, e);
+                        opts.keyHandler.right.call(target, e);
                         break;
                     case 13:
                         e.preventDefault();
-                        _21.keyHandler.enter.call(_1f, e);
+                        opts.keyHandler.enter.call(target, e);
                         return false;
                     case 9:
                     case 27:
-                        _27(_1f);
+                        hidePanel(target);
                         break;
                     default:
-                        if (_21.editable) {
-                            if (_20.timer) {
-                                clearTimeout(_20.timer);
+                        if (opts.editable) {
+                            if (combo.timer) {
+                                clearTimeout(combo.timer);
                             }
-                            _20.timer = setTimeout(function() {
-                                var q = _24.val();
-                                if (_20.previousValue != q) {
-                                    _20.previousValue = q;
-                                    $(_1f).combo("showPanel");
-                                    _21.keyHandler.query.call(_1f, _24.val(), e);
-                                    $(_1f).combo("validate");
+                            combo.timer = setTimeout(function() {
+                                var q = comboText.val();
+                                if (combo.previousValue != q) {
+                                    combo.previousValue = q;
+                                    $(target).combo("showPanel");
+                                    opts.keyHandler.query.call(target, comboText.val(), e);
                                 }
-                            }, _21.delay);
+                            }, opts.delay);
                         }
                 }
             });
-            _25.bind("click.combo", function() {
+            comboArrow.bind("click.combo", function() {
                 _26.call(this);
             }).bind("mouseenter.combo", function() {
                 $(this).addClass("combo-arrow-hover");
@@ -195,183 +192,174 @@ require('./validatebox');
         }
 
         function _26() {
-            if (_22.is(":visible")) {
-                _27(_1f);
+            if (panel.is(":visible")) {
+                hidePanel(target);
             } else {
                 var p = $(this).closest("div.combo-panel");
-                $("div.combo-panel:visible").not(_22).not(p).panel("close");
-                $(_1f).combo("showPanel");
+                $("div.combo-panel:visible").not(panel).not(p).panel("close");
+                $(target).combo("showPanel");
             }
-            _24.focus();
+            comboText.focus();
         };
     };
 
-    function _28(_29) {
-        var _2a = $.data(_29, "combo");
-        var _2b = _2a.options;
-        var _2c = _2a.combo;
-        var _2d = _2a.panel;
-        _2d.panel("move", {
-            left: _2e(),
-            top: _2f()
+    function showPanel(target) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        var cb = combo.combo;
+        var panel = combo.panel;
+        panel.panel("move", {
+            left: getPanelLeft(),
+            top: getPanelTop()
         });
-        if (_2d.panel("options").closed) {
-            _2d.panel("open");
-            _2b.onShowPanel.call(_29);
+        if (panel.panel("options").closed) {
+            panel.panel("open");
+            opts.onShowPanel.call(target);
         }
         (function() {
-            if (_2d.is(":visible")) {
-                _2d.panel("move", {
-                    left: _2e(),
-                    top: _2f()
+            if (panel.is(":visible")) {
+                panel.panel("move", {
+                    left: getPanelLeft(),
+                    top: getPanelTop()
                 });
                 setTimeout(arguments.callee, 200);
             }
         })();
 
-        function _2e() {
-            var _30 = _2c.offset().left;
-            if (_2b.panelAlign == "right") {
-                _30 += _2c._outerWidth() - _2d._outerWidth();
+        function getPanelLeft() {
+            var left = cb.offset().left;
+            if (opts.panelAlign == "right") {
+                left += cb._outerWidth() - panel._outerWidth();
             }
-            if (_30 + _2d._outerWidth() > $(window)._outerWidth() + $(document).scrollLeft()) {
-                _30 = $(window)._outerWidth() + $(document).scrollLeft() - _2d._outerWidth();
+            if (left + panel._outerWidth() > $(window)._outerWidth() + $(document).scrollLeft()) {
+                left = $(window)._outerWidth() + $(document).scrollLeft() - panel._outerWidth();
             }
-            if (_30 < 0) {
-                _30 = 0;
+            if (left < 0) {
+                left = 0;
             }
-            return _30;
+            return left;
         };
 
-        function _2f() {
-            var top = _2c.offset().top + _2c._outerHeight();
-            if (top + _2d._outerHeight() > $(window)._outerHeight() + $(document).scrollTop()) {
-                top = _2c.offset().top - _2d._outerHeight();
+        function getPanelTop() {
+            var top = cb.offset().top + cb._outerHeight();
+            if (top + panel._outerHeight() > $(window)._outerHeight() + $(document).scrollTop()) {
+                top = cb.offset().top - panel._outerHeight();
             }
             if (top < $(document).scrollTop()) {
-                top = _2c.offset().top + _2c._outerHeight();
+                top = cb.offset().top + cb._outerHeight();
             }
             return top;
         };
     };
 
-    function _27(_31) {
-        var _32 = $.data(_31, "combo").panel;
-        _32.panel("close");
+    function hidePanel(target) {
+        var panel = $.data(target, "combo").panel;
+        panel.panel("close");
     };
 
-    function _33(_34) {
-        var _35 = $.data(_34, "combo").options;
-        var _36 = $(_34).combo("textbox");
-        _36.validatebox($.extend({}, _35, {
-            deltaX: (_35.hasDownArrow ? _35.deltaX : (_35.deltaX > 0 ? 1 : -1))
-        }));
-    };
-
-    function _16(_37, _38) {
-        var _39 = $.data(_37, "combo");
-        var _3a = _39.options;
-        var _3b = _39.combo;
-        if (_38) {
-            _3a.disabled = true;
-            $(_37).attr("disabled", true);
-            _3b.find(".combo-value").attr("disabled", true);
-            _3b.find(".combo-text").attr("disabled", true);
+    function setDisabled(target, mode) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        var cb = combo.combo;
+        if (mode) {
+            opts.disabled = true;
+            $(target).attr("disabled", true);
+            cb.find(".combo-value").attr("disabled", true);
+            cb.find(".combo-text").attr("disabled", true);
         } else {
-            _3a.disabled = false;
-            $(_37).removeAttr("disabled");
-            _3b.find(".combo-value").removeAttr("disabled");
-            _3b.find(".combo-text").removeAttr("disabled");
+            opts.disabled = false;
+            $(target).removeAttr("disabled");
+            cb.find(".combo-value").removeAttr("disabled");
+            cb.find(".combo-text").removeAttr("disabled");
         }
     };
 
-    function _17(_3c, _3d) {
-        var _3e = $.data(_3c, "combo");
-        var _3f = _3e.options;
-        _3f.readonly = _3d == undefined ? true : _3d;
-        var _40 = _3f.readonly ? true : (!_3f.editable);
-        _3e.combo.find(".combo-text").attr("readonly", _40).css("cursor", _40 ? "pointer" : "");
+    function setReadonly(target, mode) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        opts.readonly = mode == undefined ? true : mode;
+        var readonly = opts.readonly ? true : (!opts.editable);
+        combo.combo.find(".combo-text").attr("readonly", readonly).css("cursor", readonly ? "pointer" : "");
     };
 
-    function _41(_42) {
-        var _43 = $.data(_42, "combo");
-        var _44 = _43.options;
-        var _45 = _43.combo;
-        if (_44.multiple) {
-            _45.find("input.combo-value").remove();
+    function clear(target) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        var cb = combo.combo;
+        if (opts.multiple) {
+            cb.find("input.combo-value").remove();
         } else {
-            _45.find("input.combo-value").val("");
+            cb.find("input.combo-value").val("");
         }
-        _45.find("input.combo-text").val("");
+        cb.find("input.combo-text").val("");
     };
 
-    function _46(_47) {
-        var _48 = $.data(_47, "combo").combo;
-        return _48.find("input.combo-text").val();
+    function getText(target) {
+        var combo = $.data(target, "combo").combo;
+        return combo.find("input.combo-text").val();
     };
 
-    function _49(_4a, _4b) {
-        var _4c = $.data(_4a, "combo");
-        var _4d = _4c.combo.find("input.combo-text");
-        if (_4d.val() != _4b) {
-            _4d.val(_4b);
-            $(_4a).combo("validate");
-            _4c.previousValue = _4b;
+    function setText(target, text) {
+        var combo = $.data(target, "combo");
+        var comboText = combo.combo.find("input.combo-text");
+        if (comboText.val() != text) {
+            comboText.val(text);
+            combo.previousValue = text;
         }
     };
 
-    function _4e(_4f) {
-        var _50 = [];
-        var _51 = $.data(_4f, "combo").combo;
-        _51.find("input.combo-value").each(function() {
-            _50.push($(this).val());
+    function getValues(target) {
+        var values = [];
+        var combo = $.data(target, "combo").combo;
+        combo.find("input.combo-value").each(function() {
+            values.push($(this).val());
         });
-        return _50;
+        return values;
     };
 
-    function _52(_53, _54) {
-        var _55 = $.data(_53, "combo").options;
-        var _56 = _4e(_53);
-        var _57 = $.data(_53, "combo").combo;
-        _57.find("input.combo-value").remove();
-        var _58 = $(_53).attr("comboName");
-        for (var i = 0; i < _54.length; i++) {
-            var _59 = $("<input type=\"hidden\" class=\"combo-value\">").appendTo(_57);
-            if (_58) {
-                _59.attr("name", _58);
+    function setValues(target, values) {
+        var opts = $.data(target, "combo").options;
+        var oldValues = getValues(target);
+        var combo = $.data(target, "combo").combo;
+        combo.find("input.combo-value").remove();
+        var comboNameame = $(target).attr("comboName");
+        for (var i = 0; i < values.length; i++) {
+            var input = $("<input type=\"hidden\" class=\"combo-value\">").appendTo(combo);
+            if (comboNameame) {
+                input.attr("name", comboNameame);
             }
-            _59.val(_54[i]);
+            input.val(values[i]);
         }
         var tmp = [];
-        for (var i = 0; i < _56.length; i++) {
-            tmp[i] = _56[i];
+        for (var i = 0; i < oldValues.length; i++) {
+            tmp[i] = oldValues[i];
         }
         var aa = [];
-        for (var i = 0; i < _54.length; i++) {
+        for (var i = 0; i < values.length; i++) {
             for (var j = 0; j < tmp.length; j++) {
-                if (_54[i] == tmp[j]) {
-                    aa.push(_54[i]);
+                if (values[i] == tmp[j]) {
+                    aa.push(values[i]);
                     tmp.splice(j, 1);
                     break;
                 }
             }
         }
-        if (aa.length != _54.length || _54.length != _56.length) {
-            if (_55.multiple) {
-                _55.onChange.call(_53, _54, _56);
+        if (aa.length != values.length || values.length != oldValues.length) {
+            if (opts.multiple) {
+                opts.onChange.call(target, values, oldValues);
             } else {
-                _55.onChange.call(_53, _54[0], _56[0]);
+                opts.onChange.call(target, values[0], oldValues[0]);
             }
         }
     };
 
-    function _5a(_5b) {
-        var _5c = _4e(_5b);
-        return _5c[0];
+    function getValue(target) {
+        var values = getValues(target);
+        return values[0];
     };
 
-    function _5d(_5e, _5f) {
-        _52(_5e, [_5f]);
+    function setValue(target, value) {
+        setValues(target, [value]);
     };
 
     function _60(_61) {
@@ -381,41 +369,33 @@ require('./validatebox');
         if (_62.multiple) {
             if (_62.value) {
                 if (typeof _62.value == "object") {
-                    _52(_61, _62.value);
+                    setValues(_61, _62.value);
                 } else {
-                    _5d(_61, _62.value);
+                    setValue(_61, _62.value);
                 }
             } else {
-                _52(_61, []);
+                setValues(_61, []);
             }
-            _62.originalValue = _4e(_61);
+            _62.originalValue = getValues(_61);
         } else {
-            _5d(_61, _62.value);
+            setValue(_61, _62.value);
             _62.originalValue = _62.value;
         }
         _62.onChange = fn;
     };
-    $.fn.combo = function(_63, _64) {
-        if (typeof _63 == "string") {
-            var _65 = $.fn.combo.methods[_63];
-            if (_65) {
-                return _65(this, _64);
-            } else {
-                return this.each(function() {
-                    var _66 = $(this).combo("textbox");
-                    _66.validatebox(_63, _64);
-                });
-            }
+    $.fn.combo = function(options, param) {
+        if (typeof options == "string") {
+            return $.fn.combo.methods[options](this, param);
         }
-        _63 = _63 || {};
+        options = options || {};
         return this.each(function() {
             var _67 = $.data(this, "combo");
             if (_67) {
-                $.extend(_67.options, _63);
+                $.extend(_67.options, options);
             } else {
                 var r = _b(this);
                 _67 = $.data(this, "combo", {
-                    options: $.extend({}, $.fn.combo.defaults, $.fn.combo.parseOptions(this), _63),
+                    options: $.extend({}, $.fn.combo.defaults, $.fn.combo.parseOptions(this), options),
                     combo: r.combo,
                     panel: r.panel,
                     previousValue: null
@@ -425,7 +405,6 @@ require('./validatebox');
             _11(this);
             _1(this);
             _1e(this);
-            _33(this);
             _60(this);
         });
     };
@@ -451,79 +430,75 @@ require('./validatebox');
         },
         showPanel: function(jq) {
             return jq.each(function() {
-                _28(this);
+                showPanel(this);
             });
         },
         hidePanel: function(jq) {
             return jq.each(function() {
-                _27(this);
+                hidePanel(this);
             });
         },
         disable: function(jq) {
             return jq.each(function() {
-                _16(this, true);
+                setDisabled(this, true);
                 _1e(this);
             });
         },
         enable: function(jq) {
             return jq.each(function() {
-                _16(this, false);
+                setDisabled(this, false);
                 _1e(this);
             });
         },
-        readonly: function(jq, _69) {
+        readonly: function(jq, mode) {
             return jq.each(function() {
-                _17(this, _69);
+                setReadonly(this, mode);
                 _1e(this);
             });
-        },
-        isValid: function(jq) {
-            var _6a = $.data(jq[0], "combo").combo.find("input.combo-text");
-            return _6a.validatebox("isValid");
         },
         clear: function(jq) {
             return jq.each(function() {
-                _41(this);
+                clear(this);
             });
         },
         reset: function(jq) {
             return jq.each(function() {
-                var _6b = $.data(this, "combo").options;
-                if (_6b.multiple) {
-                    $(this).combo("setValues", _6b.originalValue);
+                var opts = $.data(this, "combo").options;
+                if (opts.multiple) {
+                    $(this).combo("setValues", opts.originalValue);
                 } else {
-                    $(this).combo("setValue", _6b.originalValue);
+                    $(this).combo("setValue", opts.originalValue);
                 }
             });
         },
         getText: function(jq) {
-            return _46(jq[0]);
+            return getText(jq[0]);
         },
-        setText: function(jq, _6c) {
+        setText: function(jq, text) {
             return jq.each(function() {
-                _49(this, _6c);
+                setText(this, text);
             });
         },
         getValues: function(jq) {
-            return _4e(jq[0]);
+            return getValues(jq[0]);
         },
-        setValues: function(jq, _6d) {
+        setValues: function(jq, values) {
             return jq.each(function() {
-                _52(this, _6d);
+                setValues(this, values);
             });
         },
         getValue: function(jq) {
-            return _5a(jq[0]);
+            return getValue(jq[0]);
         },
-        setValue: function(jq, _6e) {
+        setValue: function(jq, value) {
             return jq.each(function() {
-                _5d(this, _6e);
+                setValue(this, value);
             });
         }
     };
-    $.fn.combo.parseOptions = function(_6f) {
-        var t = $(_6f);
-        return $.extend({}, $.fn.validatebox.parseOptions(_6f), $.parser.parseOptions(_6f, ["width", "height", "separator", "panelAlign", {
+    $.fn.combo.parseOptions = function(target) {
+        var t = $(target);
+        return $.extend({}, $.parser.parseOptions(target, ["width", "height", "separator", "panelAlign", {
             panelWidth: "number",
             editable: "boolean",
             hasDownArrow: "boolean",
@@ -537,7 +512,7 @@ require('./validatebox');
             value: (t.val() || undefined)
         });
     };
-    $.fn.combo.defaults = $.extend({}, $.fn.validatebox.defaults, {
+    $.fn.combo.defaults = $.extend({}, {
         width: "auto",
         height: 28,
         panelWidth: null,
@@ -563,6 +538,6 @@ require('./validatebox');
         },
         onShowPanel: function() {},
         onHidePanel: function() {},
-        onChange: function(_70, _71) {}
+        onChange: function(newValue, oldValue) {}
     });
 })(jQuery);

@@ -11,7 +11,6 @@
  * draggable - jQuery EasyUI
  * 
  */
-
 require('./parser');
 
 (function($){

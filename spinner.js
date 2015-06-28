@@ -9,7 +9,6 @@
  */
 require('./parser');
 require('./spinner.css');
-require('./validatebox');
 
 (function($) {
     function _1(_2) {
@@ -55,7 +54,6 @@ require('./validatebox');
             }).bind("click.spinner", function() {
                 _d.spin.call(_c, false);
                 _d.onSpinUp.call(_c);
-                $(_c).validatebox("validate");
             });
             _e.find(".spinner-arrow-down").bind("mouseenter.spinner", function() {
                 $(this).addClass("spinner-arrow-hover");
@@ -64,7 +62,6 @@ require('./validatebox');
             }).bind("click.spinner", function() {
                 _d.spin.call(_c, true);
                 _d.onSpinDown.call(_c);
-                $(_c).validatebox("validate");
             });
             $(_c).bind("change.spinner", function() {
                 $(this).spinner("setValue", $(this).val());
@@ -92,12 +89,7 @@ require('./validatebox');
     };
     $.fn.spinner = function(_19, _1a) {
         if (typeof _19 == "string") {
-            var _1b = $.fn.spinner.methods[_19];
-            if (_1b) {
-                return _1b(this, _1a);
-            } else {
-                return this.validatebox(_19, _1a);
-            }
+            return $.fn.spinner.methods[_19](this,_1a);
         }
         _19 = _19 || {};
         return this.each(function() {
@@ -116,7 +108,6 @@ require('./validatebox');
             _f(this, _1c.options.disabled);
             _13(this, _1c.options.readonly);
             _4(this);
-            $(this).validatebox(_1c.options);
             _b(this);
         });
     };
@@ -130,7 +121,6 @@ require('./validatebox');
         destroy: function(jq) {
             return jq.each(function() {
                 var _1e = $.data(this, "spinner").spinner;
-                $(this).validatebox("destroy");
                 _1e.remove();
             });
         },
@@ -187,7 +177,7 @@ require('./validatebox');
     };
     $.fn.spinner.parseOptions = function(_26) {
         var t = $(_26);
-        return $.extend({}, $.fn.validatebox.parseOptions(_26), $.parser.parseOptions(_26, ["width", "height", "min", "max", {
+        return $.extend({}, $.parser.parseOptions(_26, ["width", "height", "min", "max", {
             increment: "number",
             editable: "boolean"
         }]), {
@@ -196,7 +186,7 @@ require('./validatebox');
             readonly: (t.attr("readonly") ? true : undefined)
         });
     };
-    $.fn.spinner.defaults = $.extend({}, $.fn.validatebox.defaults, {
+    $.fn.spinner.defaults = $.extend({}, {
         width: "auto",
         height: 28,
         deltaX: 19,

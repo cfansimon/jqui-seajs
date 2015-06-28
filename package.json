@@ -1,7 +1,7 @@
 {
   "name": "jqui",
   "version": "1.3.6",
-  "description": "extend from jquery easyui",
+  "description": "extend from jquery easyui, restore real source code from minimized, and remove some useless plugins, like linkbutton, menu ,etc.",
   "keywords": [],
   "homepage": "",
   "author": "Simon <wq@zlzkj.com>",
@@ -12,7 +12,7 @@
   "bugs": {
     "url": ""
   },
-  "licenses": "MIT",
+  "licenses": "GPL",
   "spm": {
     "output": [
       "*.js",

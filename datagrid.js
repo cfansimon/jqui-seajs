@@ -11,7 +11,6 @@ require('./parser');
 require('./datagrid.css');
 require('./panel');
 require('./resizable');
-require('./linkbutton');
 require('./pagination');
 
 (function($) {
@@ -185,7 +184,7 @@ require('./pagination');
         _2d.height(hh);
         _2a.add(_2b)._outerHeight(hh);
         if (_23.height != "auto") {
-            var _2f = _26 - _29.children("div.datagrid-header")._outerHeight() - _29.children("div.datagrid-footer")._outerHeight() - _24.children("div.datagrid-toolbar")._outerHeight();
+            var _2f = _26 - _29.children("div.datagrid-header")._outerHeight() - _29.children("div.datagrid-footer")._outerHeight();
             _24.children("div.datagrid-pager").each(function() {
                 _2f -= $(this)._outerHeight();
             });
@@ -398,31 +397,7 @@ require('./pagination');
         _60();
         dc.header1.add(dc.header2).css("display", _5b.showHeader ? "block" : "none");
         dc.footer1.add(dc.footer2).css("display", _5b.showFooter ? "block" : "none");
-        if (_5b.toolbar) {
-            if ($.isArray(_5b.toolbar)) {
-                $("div.datagrid-toolbar", _5c).remove();
-                var tb = $("<div class=\"datagrid-toolbar\"><table cellspacing=\"0\" cellpadding=\"0\"><tr></tr></table></div>").prependTo(_5c);
-                var tr = tb.find("tr");
-                for (var i = 0; i < _5b.toolbar.length; i++) {
-                    var btn = _5b.toolbar[i];
-                    if (btn == "-") {
-                        $("<td><div class=\"datagrid-btn-separator\"></div></td>").appendTo(tr);
-                    } else {
-                        var td = $("<td></td>").appendTo(tr);
-                        var _61 = $("<a href=\"javascript:void(0)\"></a>").appendTo(td);
-                        _61[0].onclick = eval(btn.handler || function() {});
-                        _61.linkbutton($.extend({}, btn, {
-                            plain: true
-                        }));
-                    }
-                }
-            } else {
-                $(_5b.toolbar).addClass("datagrid-toolbar").prependTo(_5c);
-                $(_5b.toolbar).show();
-            }
-        } else {
-            $("div.datagrid-toolbar", _5c).remove();
-        }
+      
         $("div.datagrid-pager", _5c).remove();
         if (_5b.pagination) {
             var _62 = $("<div class=\"datagrid-pager\"></div>");
@@ -1432,7 +1407,7 @@ require('./pagination');
             var ed = $.data(this, "datagrid.editor");
             ed.actions.setValue(ed.target, row[_130]);
         });
-        _131(_12d, _12e);
+        validateRow(_12d, _12e);
         opts.onBeginEdit.call(_12d, _12e, row);
     };
 
@@ -1446,7 +1421,7 @@ require('./pagination');
             return;
         }
         if (!_135) {
-            if (!_131(_133, _134)) {
+            if (!validateRow(_133, _134)) {
                 return;
             }
             var _138 = false;
@@ -1560,16 +1535,18 @@ require('./pagination');
         });
     };
 
-    function _131(_14f, _150) {
-        var tr = $.data(_14f, "datagrid").options.finder.getTr(_14f, _150);
+    function validateRow(target, index) {
+        var tr = $.data(target, "datagrid").options.finder.getTr(target, index);
         if (!tr.hasClass("datagrid-row-editing")) {
             return true;
         }
-        var vbox = tr.find(".validatebox-text");
-        vbox.validatebox("validate");
-        vbox.trigger("mouseleave");
-        var _151 = tr.find(".validatebox-invalid");
-        return _151.length == 0;
+        // @todo : new validate func
+        return true;
+        // var vbox = tr.find(".validatebox-text");
+        // vbox.validatebox("validate");
+        // vbox.trigger("mouseleave");
+        // var _151 = tr.find(".validatebox-invalid");
+        // return _151.length == 0;
     };
 
     function _152(_153, _154) {
@@ -1662,7 +1639,7 @@ require('./pagination');
         var data = $.data(_16a, "datagrid").data;
         var ok = true;
         for (var i = 0, len = data.rows.length; i < len; i++) {
-            if (_131(_16a, i)) {
+            if (validateRow(_16a, i)) {
                 _132(_16a, i, false);
             } else {
                 ok = false;
@@ -1930,25 +1907,25 @@ require('./pagination');
                 $(_1a5)._outerWidth(_1a6)._outerHeight(22);
             }
         },
-        validatebox: {
-            init: function(_1a7, _1a8) {
-                var _1a9 = $("<input type=\"text\" class=\"datagrid-editable-input\">").appendTo(_1a7);
-                _1a9.validatebox(_1a8);
-                return _1a9;
-            },
-            destroy: function(_1aa) {
-                $(_1aa).validatebox("destroy");
-            },
-            getValue: function(_1ab) {
-                return $(_1ab).val();
-            },
-            setValue: function(_1ac, _1ad) {
-                $(_1ac).val(_1ad);
-            },
-            resize: function(_1ae, _1af) {
-                $(_1ae)._outerWidth(_1af)._outerHeight(22);
-            }
-        },
+        // validatebox: {
+        //     init: function(_1a7, _1a8) {
+        //         var _1a9 = $("<input type=\"text\" class=\"datagrid-editable-input\">").appendTo(_1a7);
+        //         _1a9.validatebox(_1a8);
+        //         return _1a9;
+        //     },
+        //     destroy: function(_1aa) {
+        //         $(_1aa).validatebox("destroy");
+        //     },
+        //     getValue: function(_1ab) {
+        //         return $(_1ab).val();
+        //     },
+        //     setValue: function(_1ac, _1ad) {
+        //         $(_1ac).val(_1ad);
+        //     },
+        //     resize: function(_1ae, _1af) {
+        //         $(_1ae)._outerWidth(_1af)._outerHeight(22);
+        //     }
+        // },
         datebox: {
             init: function(_1b0, _1b1) {
                 var _1b2 = $("<input type=\"text\">").appendTo(_1b0);
@@ -2332,8 +2309,8 @@ require('./pagination');
                 opts.view.refreshRow.call(opts.view, this, _1f5);
             });
         },
-        validateRow: function(jq, _1f6) {
-            return _131(jq[0], _1f6);
+        validateRow: function(jq, rowIndex) {
+            return validateRow(jq[0], rowIndex);
         },
         updateRow: function(jq, _1f7) {
             return jq.each(function() {
@@ -2398,30 +2375,7 @@ require('./pagination');
     };
     $.fn.datagrid.parseOptions = function(_201) {
         var t = $(_201);
-        return $.extend({}, $.fn.panel.parseOptions(_201), $.parser.parseOptions(_201, ["url", "toolbar", "idField", "sortName", "sortOrder", "pagePosition", "resizeHandle", {
-            sharedStyleSheet: "boolean",
-            fitColumns: "boolean",
-            autoRowHeight: "boolean",
-            striped: "boolean",
-            nowrap: "boolean"
-        }, {
-            rownumbers: "boolean",
-            singleSelect: "boolean",
-            ctrlSelect: "boolean",
-            checkOnSelect: "boolean",
-            selectOnCheck: "boolean"
-        }, {
-            pagination: "boolean",
-            pageSize: "number",
-            pageNumber: "number"
-        }, {
-            multiSort: "boolean",
-            remoteSort: "boolean",
-            showHeader: "boolean",
-            showFooter: "boolean"
-        }, {
-            scrollbarSize: "number"
-        }]), {
+        return $.extend({}, $.fn.panel.parseOptions(_201), {
             pageList: (t.attr("pageList") ? eval(t.attr("pageList")) : undefined),
             loadMsg: (t.attr("loadMsg") != undefined ? t.attr("loadMsg") : undefined),
             rowStyler: (t.attr("rowStyler") ? eval(t.attr("rowStyler")) : undefined)
@@ -2687,7 +2641,6 @@ require('./pagination');
         fitColumns: true,
         resizeHandle: "right",
         autoRowHeight: true,
-        toolbar: null,
         striped: false,
         method: "post",
         nowrap: true,

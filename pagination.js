@@ -9,20 +9,19 @@
  */
 require('./parser');
 require('./pagination.css');
-require('./linkbutton');
 
 (function($) {
     function _1(_2) {
-        var _3 = $.data(_2, "pagination");
-        var _4 = _3.options;
-        var bb = _3.bb = {};
+        var state = $.data(_2, "pagination");
+        var opts = state.options;
+        var bb = state.bb = {};
         var _5 = $(_2).addClass("pagination").html("<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr></tr></table>");
         var tr = _5.find("tr");
-        var aa = $.extend([], _4.layout);
-        if (!_4.showPageList) {
+        var aa = $.extend([], opts.layout);
+        if (!opts.showPageList) {
             _6(aa, "list");
         }
-        if (!_4.showRefresh) {
+        if (!opts.showRefresh) {
             _6(aa, "refresh");
         }
         if (aa[0] == "sep") {
@@ -36,12 +35,12 @@ require('./linkbutton');
             if (_8 == "list") {
                 var ps = $("<select class=\"pagination-page-list\"></select>");
                 ps.bind("change", function() {
-                    _4.pageSize = parseInt($(this).val());
-                    _4.onChangePageSize.call(_2, _4.pageSize);
-                    _10(_2, _4.pageNumber);
+                    opts.pageSize = parseInt($(this).val());
+                    opts.onChangePageSize.call(_2, opts.pageSize);
+                    _10(_2, opts.pageNumber);
                 });
-                for (var i = 0; i < _4.pageList.length; i++) {
-                    $("<option></option>").text(_4.pageList[i]).appendTo(ps);
+                for (var i = 0; i < opts.pageList.length; i++) {
+                    $("<option></option>").text(opts.pageList[i]).appendTo(ps);
                 }
                 $("<td></td>").append(ps).appendTo(tr);
             } else {
@@ -61,7 +60,7 @@ require('./linkbutton');
                                     bb.last = _9("last");
                                 } else {
                                     if (_8 == "manual") {
-                                        $("<span style=\"padding-left:6px;\"></span>").html(_4.beforePageText).appendTo(tr).wrap("<td></td>");
+                                        $("<span style=\"padding-left:6px;\"></span>").html(opts.beforePageText).appendTo(tr).wrap("<td></td>");
                                         bb.num = $("<input class=\"pagination-num\" type=\"text\" value=\"1\" size=\"2\">").appendTo(tr).wrap("<td></td>");
                                         bb.num.unbind(".pagination").bind("keydown.pagination", function(e) {
                                             if (e.keyCode == 13) {
@@ -87,38 +86,15 @@ require('./linkbutton');
                 }
             }
         }
-        if (_4.buttons) {
-            $("<td><div class=\"pagination-btn-separator\"></div></td>").appendTo(tr);
-            if ($.isArray(_4.buttons)) {
-                for (var i = 0; i < _4.buttons.length; i++) {
-                    var _b = _4.buttons[i];
-                    if (_b == "-") {
-                        $("<td><div class=\"pagination-btn-separator\"></div></td>").appendTo(tr);
-                    } else {
-                        var td = $("<td></td>").appendTo(tr);
-                        var a = $("<a href=\"javascript:void(0)\"></a>").appendTo(td);
-                        a[0].onclick = eval(_b.handler || function() {});
-                        a.linkbutton($.extend({}, _b, {
-                            plain: true
-                        }));
-                    }
-                }
-            } else {
-                var td = $("<td></td>").appendTo(tr);
-                $(_4.buttons).appendTo(td).show();
-            }
-        }
+
         $("<div class=\"pagination-info\"></div>").appendTo(_5);
         $("<div style=\"clear:both;\"></div>").appendTo(_5);
 
         function _9(_c) {
-            var _d = _4.nav[_c];
-            var a = $("<a href=\"javascript:void(0)\"></a>").appendTo(tr);
+            var _d = opts.nav[_c];
+            var a = $("<a href=\"javascript:void(0)\" class=\"pagination-btn\"><span class=\"pagination-btn-icon "+ _d.iconCls +"\">&nbsp;</span></a>").appendTo(tr);
             a.wrap("<td></td>");
-            a.linkbutton({
-                iconCls: _d.iconCls,
-                plain: true
-            }).unbind(".pagination").bind("click.pagination", function() {
+            a.unbind(".pagination").bind("click.pagination", function() {
                 _d.handler.call(_2);
             });
             return a;
@@ -180,13 +156,9 @@ require('./linkbutton');
                 _1a = 1;
             }
             for (var i = _1a; i <= _1b; i++) {
-                var a = $("<a class=\"pagination-link\" href=\"javascript:void(0)\"></a>").appendTo(td);
-                a.linkbutton({
-                    plain: true,
-                    text: i
-                });
+                var a = $("<a class=\"pagination-link\" href=\"javascript:void(0)\">"+ i +"</a>").appendTo(td);
                 if (i == _18.pageNumber) {
-                    a.linkbutton("select");
+                    a.addClass("pagination-link-selected");
                 } else {
                     a.unbind(".pagination").bind("click.pagination", {
                         pageNumber: i
@@ -202,24 +174,32 @@ require('./linkbutton');
         _1c = _1c.replace(/{total}/, _18.total);
         $(_15).find("div.pagination-info").html(_1c);
         if (bb.first) {
-            bb.first.linkbutton({
-                disabled: (_18.pageNumber == 1)
-            });
+            if(_18.pageNumber == 1){
+                bb.first.addClass('pagination-btn-disabled');
+            }else{
+                bb.first.removeClass('pagination-btn-disabled');
+            }
         }
         if (bb.prev) {
-            bb.prev.linkbutton({
-                disabled: (_18.pageNumber == 1)
-            });
+            if(_18.pageNumber == 1){
+                bb.prev.addClass('pagination-btn-disabled');
+            }else{
+                bb.prev.removeClass('pagination-btn-disabled');
+            }
         }
         if (bb.next) {
-            bb.next.linkbutton({
-                disabled: (_18.pageNumber == _19)
-            });
+            if(_18.pageNumber == _19){
+                bb.next.addClass('pagination-btn-disabled');
+            }else{
+                bb.next.removeClass('pagination-btn-disabled');
+            }
         }
         if (bb.last) {
-            bb.last.linkbutton({
-                disabled: (_18.pageNumber == _19)
-            });
+            if(_18.pageNumber == _19){
+                bb.last.addClass('pagination-btn-disabled');
+            }else{
+                bb.last.removeClass('pagination-btn-disabled');
+            }
         }
         _1d(_15, _18.loading);
     };
@@ -229,9 +209,8 @@ require('./linkbutton');
         var _21 = _20.options;
         _21.loading = _1f;
         if (_21.showRefresh && _20.bb.refresh) {
-            _20.bb.refresh.linkbutton({
-                iconCls: (_21.loading ? "pagination-loading" : "pagination-load")
-            });
+            _20.bb.refresh.addClass(_21.loading ? "pagination-loading" : "pagination-load");
+            _20.bb.refresh.removeClass(_21.loading ? "pagination-load" : "pagination-loading");
         }
     };
     $.fn.pagination = function(_22, _23) {
@@ -300,7 +279,6 @@ require('./linkbutton');
         pageNumber: 1,
         pageList: [10, 20, 30, 50],
         loading: false,
-        buttons: null,
         showPageList: true,
         showRefresh: true,
         links: 10,

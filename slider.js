@@ -7,13 +7,7 @@
  * To use it on other terms please contact us at info@jeasyui.com
  *
  */
-/**
- * slider - jQuery EasyUI
- * 
- * Dependencies:
- *  draggable
- * 
- */
+
 require('./parser');
 require('./slider.css');
 require('./draggable');

@@ -7,15 +7,6 @@
  * To use it on other terms please contact us at info@jeasyui.com
  *
  */
-/**
- * window - jQuery EasyUI
- * 
- * Dependencies:
- * 	 panel
- *   draggable
- *   resizable
- * 
- */
 require('./parser');
 require('./window.css');
 require('./resizable');

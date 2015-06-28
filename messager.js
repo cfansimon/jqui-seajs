@@ -9,13 +9,11 @@
  */
 require('./parser');
 require('./messager.css');
-require('./linkbutton');
 require('./window');
-require('./progressbar');
 
 (function($) {
     function _1(el, _2, _3, _4) {
-        var _5 = $(el).window("window");
+        var _5 = $(el).window("window"); 
         if (!_5) {
             return;
         }
@@ -121,13 +119,20 @@ require('./progressbar');
         return _e;
     };
 
-    function _f(_10, _11, _12) {
+    function _f(_10, _11, buttons) {
         var win = $("<div class=\"messager-body\"></div>").appendTo("body");
         win.append(_11);
-        if (_12) {
-            var tb = $("<div class=\"messager-button\"></div>").appendTo(win);
-            for (var _13 in _12) {
-                $("<a></a>").attr("href", "javascript:void(0)").text(_13).css("margin-left", 10).bind("click", eval(_12[_13])).appendTo(tb).linkbutton();
+        if (buttons) {
+            console.log(buttons);
+            var tb = $("<div class=\"messager-button-group\"></div>").appendTo(win);
+            for (var name in buttons) {
+                var btn = $("<a class=\"messager-button\"></a>");
+                if(name==$.messager.defaults.ok){
+                    btn.addClass("messager-button-ok");
+                }else if(name==$.messager.defaults.cancel){
+                    btn.addClass("messager-button-cancel");
+                }
+                btn.attr("href", "javascript:void(0)").text(name).css("margin-left", 10).bind("click", eval(buttons[name])).appendTo(tb);
             }
         }
         win.window({
@@ -223,56 +228,6 @@ require('./progressbar');
             win.children("input.messager-input").focus();
             return win;
         },
-        progress: function(_1f) {
-            var _20 = {
-                bar: function() {
-                    return $("body>div.messager-window").find("div.messager-p-bar");
-                },
-                close: function() {
-                    var win = $("body>div.messager-window>div.messager-body:has(div.messager-progress)");
-                    if (win.length) {
-                        win.window("close");
-                    }
-                }
-            };
-            if (typeof _1f == "string") {
-                var _21 = _20[_1f];
-                return _21();
-            }
-            var _22 = $.extend({
-                title: "",
-                msg: "",
-                text: undefined,
-                interval: 300
-            }, _1f || {});
-            var _23 = "<div class=\"messager-progress\"><div class=\"messager-p-msg\"></div><div class=\"messager-p-bar\"></div></div>";
-            var win = _f(_22.title, _23, null);
-            win.find("div.messager-p-msg").html(_22.msg);
-            var bar = win.find("div.messager-p-bar");
-            bar.progressbar({
-                text: _22.text
-            });
-            win.window({
-                closable: false,
-                onClose: function() {
-                    if (this.timer) {
-                        clearInterval(this.timer);
-                    }
-                    $(this).window("destroy");
-                }
-            });
-            if (_22.interval) {
-                win[0].timer = setInterval(function() {
-                    var v = bar.progressbar("getValue");
-                    v += 10;
-                    if (v > 100) {
-                        v = 0;
-                    }
-                    bar.progressbar("setValue", v);
-                }, _22.interval);
-            }
-            return win;
-        }
     };
     $.messager.defaults = {
         ok: "Ok",

@@ -7,14 +7,6 @@
  * To use it on other terms please contact us at info@jeasyui.com
  *
  */
-/**
- * datebox - jQuery EasyUI
- * 
- * Dependencies:
- * 	 calendar
- *   combo
- * 
- */
 require('./parser');
 require('./datebox.css');
 require('./calendar');

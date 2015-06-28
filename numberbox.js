@@ -9,7 +9,6 @@
  */
 require('./parser');
 require('./numberbox.css');
-require('./validatebox');
 
 (function($) {
     function _1(_2) {
@@ -81,13 +80,6 @@ require('./validatebox');
         });
     };
 
-    function _17(_18) {
-        if ($.fn.validatebox) {
-            var _19 = $.data(_18, "numberbox").options;
-            $(_18).validatebox(_19);
-        }
-    };
-
     function _1a(_1b, _1c) {
         var _1d = $.data(_1b, "numberbox").options;
         if (_1c) {
@@ -98,23 +90,18 @@ require('./validatebox');
             $(_1b).removeAttr("disabled");
         }
     };
-    $.fn.numberbox = function(_1e, _1f) {
-        if (typeof _1e == "string") {
-            var _20 = $.fn.numberbox.methods[_1e];
-            if (_20) {
-                return _20(this, _1f);
-            } else {
-                return this.validatebox(_1e, _1f);
-            }
+    $.fn.numberbox = function(options, param) {
+        if (typeof options == "string") {
+            return $.fn.numberbox.methods[options](this, param);
         }
-        _1e = _1e || {};
+        options = options || {};
         return this.each(function() {
-            var _21 = $.data(this, "numberbox");
-            if (_21) {
-                $.extend(_21.options, _1e);
+            var numberbox = $.data(this, "numberbox");
+            if (numberbox) {
+                $.extend(numberbox.options, options);
             } else {
-                _21 = $.data(this, "numberbox", {
-                    options: $.extend({}, $.fn.numberbox.defaults, $.fn.numberbox.parseOptions(this), _1e),
+                numberbox = $.data(this, "numberbox", {
+                    options: $.extend({}, $.fn.numberbox.defaults, $.fn.numberbox.parseOptions(this), options),
                     field: _1(this)
                 });
                 $(this).removeAttr("disabled");
@@ -122,10 +109,9 @@ require('./validatebox');
                     imeMode: "disabled"
                 });
             }
-            _1a(this, _21.options.disabled);
+            _1a(this, numberbox.options.disabled);
             _9(this);
             _14(this);
-            _17(this);
             _4(this);
         });
     };
@@ -136,7 +122,6 @@ require('./validatebox');
         destroy: function(jq) {
             return jq.each(function() {
                 $.data(this, "numberbox").field.remove();
-                $(this).validatebox("destroy");
                 $(this).remove();
             });
         },
@@ -184,7 +169,7 @@ require('./validatebox');
     };
     $.fn.numberbox.parseOptions = function(_26) {
         var t = $(_26);
-        return $.extend({}, $.fn.validatebox.parseOptions(_26), $.parser.parseOptions(_26, ["width", "height", "decimalSeparator", "groupSeparator", "suffix", {
+        return $.extend({}, $.parser.parseOptions(_26, ["width", "height", "decimalSeparator", "groupSeparator", "suffix", {
             min: "number",
             max: "number",
             precision: "number"
@@ -194,7 +179,7 @@ require('./validatebox');
             value: (t.val() || undefined)
         });
     };
-    $.fn.numberbox.defaults = $.extend({}, $.fn.validatebox.defaults, {
+    $.fn.numberbox.defaults = $.extend({}, {
         width: "auto",
         height: 28,
         disabled: false,

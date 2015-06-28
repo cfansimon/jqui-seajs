@@ -13,46 +13,6 @@
  */
 
 (function($){
-	$.parser = {
-		auto: true,
-		onComplete: function(context){},
-		plugins:['draggable','droppable','resizable','pagination','tooltip',
-		         'linkbutton','menu','menubutton','splitbutton','progressbar',
-				 'tree','combobox','combotree','combogrid','numberbox','validatebox','searchbox',
-				 'numberspinner','timespinner','calendar','datebox','datetimebox','slider',
-				 'layout','panel','datagrid','propertygrid','treegrid','tabs','accordion','window','dialog'
-		],
-		parse: function(context){
-			var aa = [];
-			for(var i=0; i<$.parser.plugins.length; i++){
-				var name = $.parser.plugins[i];
-				var r = $('.jq-' + name, context);
-				if (r.length){
-					if (r[name]){
-						r[name]();
-					} else {
-						aa.push({name:name,jq:r});
-					}
-				}
-			}
-			if (aa.length && window.easyloader){
-				var names = [];
-				for(var i=0; i<aa.length; i++){
-					names.push(aa[i].name);
-				}
-				easyloader.load(names, function(){
-					for(var i=0; i<aa.length; i++){
-						var name = aa[i].name;
-						var jq = aa[i].jq;
-						jq[name]();
-					}
-					$.parser.onComplete.call($.parser, context);
-				});
-			} else {
-				$.parser.onComplete.call($.parser, context);
-			}
-		},
-		
 		/**
 		 * parse options, including standard 'data-options' attribute.
 		 * 
@@ -102,16 +62,6 @@
 			return options;
 		}
 	};
-	$(function(){
-		var d = $('<div style="position:absolute;top:-1000px;width:100px;height:100px;padding:5px"></div>').appendTo('body');
-		d.width(100);
-		$._boxModel = parseInt(d.width()) == 100;
-		d.remove();
-		
-		if (!window.easyloader && $.parser.auto){
-			$.parser.parse();
-		}
-	});
 	
 	/**
 	 * extend plugin to set box model width

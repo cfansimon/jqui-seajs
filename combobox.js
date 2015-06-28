@@ -7,13 +7,6 @@
  * To use it on other terms please contact us at info@jeasyui.com
  *
  */
-/**
- * combobox - jQuery EasyUI
- * 
- * Dependencies:
- *   combo
- * 
- */
 require('./parser');
 require('./combobox.css');
 require('./combo');

@@ -11,7 +11,6 @@ require('./parser');
 require('./tree.css');
 require('./draggable');
 require('./droppable');
-
 (function($) {
     function _1(_2) {
         var _3 = $(_2);
