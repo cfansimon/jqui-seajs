@@ -12,42 +12,46 @@ require('./combo.css');
 require('./panel');
 
 (function($) {
-    function _1(_2, _3) {
-        var _4 = $.data(_2, "combo");
-        var _5 = _4.options;
-        var _6 = _4.combo;
-        var _7 = _4.panel;
-        if (_3) {
-            _5.width = _3;
+    function resize(target, width) {
+        var combo = $.data(target, "combo");
+        var opts = combo.options;
+        var cb = combo.combo;
+        var panel = combo.panel;
+        if (width) {
+            opts.width = width;
         }
-        if (isNaN(_5.width)) {
-            var c = $(_2).clone();
+        if (isNaN(opts.width)) {
+            var c = $(target).clone();
             c.css("visibility", "hidden");
             c.appendTo("body");
-            _5.width = c.outerWidth();
+            opts.width = c.outerWidth();
             c.remove();
         }
-        _6.appendTo("body");
-        var _8 = _6.find("input.combo-text");
-        var _9 = _6.find(".combo-arrow");
-        var _a = _5.hasDownArrow ? _9._outerWidth() : 0;
-        _6._outerWidth(_5.width)._outerHeight(_5.height);
-        _8._outerWidth(_6.width() - _a);
-        _8.css({
-            height: _6.height() + "px",
-            lineHeight: _6.height() + "px"
+        cb.appendTo("body");
+        var comboText = cb.find("input.combo-text");
+        var comboArrow = cb.find(".combo-arrow");
+        var comboArrowIcon = comboArrow.find(".combo-arrow-icon");
+        var comboArrowWidth = opts.hasDownArrow ? comboArrow._outerWidth() : 0;
+        cb._outerWidth(opts.width)._outerHeight(opts.height);
+        comboText._outerWidth(cb.width() - 5 - comboArrowWidth);
+        comboText.css({
+            padding: '0 2px',
+            'border-right': '1px solid #ccc',
+            height: cb.height() + "px",
+            lineHeight: cb.height() + "px"
         });
-        _9._outerHeight(_6.height());
-        _7.panel("resize", {
-            width: (_5.panelWidth ? _5.panelWidth : _6.outerWidth()),
-            height: _5.panelHeight
+        comboArrow._outerHeight(cb.height());
+        comboArrowIcon._outerHeight(cb.height());
+        panel.panel("resize", {
+            width: (opts.panelWidth ? opts.panelWidth : cb.outerWidth()),
+            height: opts.panelHeight
         });
-        _6.insertAfter(_2);
+        cb.insertAfter(target);
     };
 
     function _b(_c) {
         $(_c).addClass("combo-f").hide();
-        var _d = $("<span class=\"combo\">" + "<input type=\"text\" class=\"combo-text\" autocomplete=\"off\">" + "<span class=\"combo-btn\"><span class=\"combo-arrow\"></span></span>" + "<input type=\"hidden\" class=\"combo-value\">" + "</span>").insertAfter(_c);
+        var _d = $("<span class=\"combo\">" + "<input type=\"text\" class=\"combo-text\" autocomplete=\"off\">" + "<span class=\"combo-arrow\"><span class=\"combo-arrow-icon\"></span></span>" + "<input type=\"hidden\" class=\"combo-value\">" + "</span>").insertAfter(_c);
         var _e = $("<div class=\"combo-panel\"></div>").appendTo("body");
         _e.panel({
             doSize: false,
@@ -403,7 +407,7 @@ require('./panel');
                 $(this).removeAttr("disabled");
             }
             _11(this);
-            _1(this);
+            resize(this);
             _1e(this);
             _60(this);
         });
@@ -423,9 +427,9 @@ require('./panel');
                 _18(this);
             });
         },
-        resize: function(jq, _68) {
+        resize: function(jq, width) {
             return jq.each(function() {
-                _1(this, _68);
+                resize(this, width);
             });
         },
         showPanel: function(jq) {
@@ -514,7 +518,7 @@ require('./panel');
     };
     $.fn.combo.defaults = $.extend({}, {
         width: "auto",
-        height: 28,
+        height: 30,
         panelWidth: null,
         panelHeight: 200,
         panelAlign: "left",

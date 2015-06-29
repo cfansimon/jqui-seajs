@@ -2,38 +2,26 @@
   overflow: hidden;
   font-size: 12px;
   text-align: left;
+  border: 1px solid #ccc;
 }
-
-.panel-header,
-.panel-content {
-  border-width: 1px;
-  border-style: solid;
+.panel-noborder
+{
+  border-width: 0;
 }
 
 .panel-header {
   padding: 5px;
   position: relative;
+  border-bottom: 1px solid #ccc;
 }
 
 .panel-title {
   background: 0 0;
 }
 
-.panel-header-noborder {
-  border-width: 0 0 1px 0;
-}
-
 .panel-content {
   overflow: auto;
   border-top-width: 0;
-}
-
-.panel-content-noheader {
-  border-top-width: 1px;
-}
-
-.panel-content-noborder {
-  border-width: 0;
 }
 
 .panel-with-icon {
