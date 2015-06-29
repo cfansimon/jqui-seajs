@@ -1,0 +1,81 @@
+.combo {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.combo .combo-text {
+  margin: 0;
+  border: none;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.combo-arrow {
+  width: 28px;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f5f5f5;
+  *background-color: #e6e6e6;
+  background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+  background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+  background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05);
+}
+
+.combo-arrow-hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.combo-panel {
+  overflow: auto;
+}
+
+.combo-arrow-icon {
+  border-color: #000 transparent transparent transparent;
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  height: 0;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -2px;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+.combo-panel{
+  background-color: #fefefe;
+}
+
+.combo-arrow-hover {
+  background-color: #e6e6e6;
+}
+
+.combobox-item {
+  padding: 4px 0 4px 3px;
+}
+
+.combobox-item-hover {
+  background-color: #e6e6e6;
+  color: #00438a;
+}
+
+.combobox-item-selected {
+  background-color: #0081c2;
+  color: #fff;
+}

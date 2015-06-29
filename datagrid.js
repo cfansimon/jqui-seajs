@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./datagrid.css');
+//require('./css/datagrid.css');
 require('./panel');
 require('./resizable');
 require('./pagination');
@@ -2647,7 +2647,7 @@ require('./pagination');
         idField: "id",
         url: null,
         data: null,
-        loadMsg: "Processing, please wait ...",
+        loadMsg: "正在处理，请稍后。。。",
         rownumbers: false,
         singleSelect: false,
         ctrlSelect: true,

@@ -16,14 +16,11 @@
   "spm": {
     "output": [
       "*.js",
-      "locale/*.js"
+      "locale/*.js",
+      "all.css",
+      "images/*"
     ],
-    "build": {
-      "extractCSS": true,
-      "base64": true
-    },
     "dependencies": {
-      "import-style": "~1.0.0"
     },
     "devDependencies": {
       "expect.js": "0.3.1"

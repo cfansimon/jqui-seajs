@@ -14,6 +14,7 @@
 
 (function($){
 	$.parser = {
+		
 		/**
 		 * parse options, including standard 'data-options' attribute.
 		 * 
@@ -75,11 +76,7 @@
 			return this.outerWidth()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).width(width - ($(this).outerWidth() - $(this).width()));
-			} else {
-				$(this).width(width);
-			}
+			$(this).width(width - ($(this).outerWidth() - $(this).width()));
 		});
 	};
 	
@@ -94,11 +91,7 @@
 			return this.outerHeight()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).height(height - ($(this).outerHeight() - $(this).height()));
-			} else {
-				$(this).height(height);
-			}
+			$(this).height(height - ($(this).outerHeight() - $(this).height()));
 		});
 	};
 	

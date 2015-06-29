@@ -1,4 +1,4 @@
-define("jqui/1.3.6/calendar-debug", ["import-style/1.0.0/index-debug"], function(require, exports, module){
+define("jqui/1.3.6/calendar-debug", [], function(require, exports, module){
 /**
  * jQuery EasyUI 1.3.6
  * 
@@ -13,7 +13,7 @@ define("jqui/1.3.6/calendar-debug", ["import-style/1.0.0/index-debug"], function
  * 
  */
 require("jqui/1.3.6/parser-debug");
-require("jqui/1.3.6/calendar-debug.css.js");
+//require('./css/calendar.css');
 
 (function($){
 	
@@ -435,8 +435,8 @@ require("jqui/1.3.6/calendar-debug.css.js");
 		fit:false,
 		border:true,
 		firstDay:0,
-		weeks:['S','M','T','W','T','F','S'],
-		months:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+		weeks:['日','一','二','三','四','五','六'],
+		months:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
 		year:new Date().getFullYear(),
 		month:new Date().getMonth()+1,
 		current:(function(){
@@ -471,6 +471,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 
 (function($){
 	$.parser = {
+		
 		/**
 		 * parse options, including standard 'data-options' attribute.
 		 * 
@@ -532,11 +533,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerWidth()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).width(width - ($(this).outerWidth() - $(this).width()));
-			} else {
-				$(this).width(width);
-			}
+			$(this).width(width - ($(this).outerWidth() - $(this).width()));
 		});
 	};
 	
@@ -551,11 +548,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerHeight()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).height(height - ($(this).outerHeight() - $(this).height()));
-			} else {
-				$(this).height(height);
-			}
+			$(this).height(height - ($(this).outerHeight() - $(this).height()));
 		});
 	};
 	
@@ -671,9 +664,5 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 	}
 })(jQuery);
 
-
-});
-define("jqui/1.3.6/calendar-debug.css.js", ["import-style/1.0.0/index-debug"], function(require, exports, module){
-require("import-style/1.0.0/index-debug")('.calendar{border-width:1px;border-style:solid;padding:1px;overflow:hidden;font-size:12px;}.calendar table{border-collapse:separate;font-size:12px;width:100%;height:100%;}.calendar-noborder{border:0;}.calendar-header{position:relative;height:22px;}.calendar-title{text-align:center;height:22px;}.calendar-title span{position:relative;display:inline-block;top:2px;padding:0 3px;height:18px;line-height:18px;}.calendar-title span,.calendar-prevmonth,.calendar-nextmonth,.calendar-prevyear,.calendar-nextyear{cursor:pointer;-moz-border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;}.calendar-prevmonth,.calendar-nextmonth,.calendar-prevyear,.calendar-nextyear{position:absolute;top:50%;margin-top:-7px;width:14px;height:14px;font-size:1px;}.calendar-prevmonth{left:20px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAdElEQVR42u2WwQqAMAxD9/8/7W5SQyZpu52WBx4U8kirqGMYYwzhCeC1Ha6TmY4DRW8YzzsuNRdnyGaqjk9hCJeG6GRJh0pGd2AolE4P8eNKL0AdQOm+dLDC7FDvBHN1FqAsQe2fWsI1T4DfAf4K+D/AmAuZqsR9n40tCbAAAAAASUVORK5CYII=) no-repeat -18px -2px;}.calendar-nextmonth{right:20px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAdElEQVR42u2WwQqAMAxD9/8/7W5SQyZpu52WBx4U8kirqGMYYwzhCeC1Ha6TmY4DRW8YzzsuNRdnyGaqjk9hCJeG6GRJh0pGd2AolE4P8eNKL0AdQOm+dLDC7FDvBHN1FqAsQe2fWsI1T4DfAf4K+D/AmAuZqsR9n40tCbAAAAAASUVORK5CYII=) no-repeat -34px -2px;}.calendar-prevyear{left:3px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAdElEQVR42u2WwQqAMAxD9/8/7W5SQyZpu52WBx4U8kirqGMYYwzhCeC1Ha6TmY4DRW8YzzsuNRdnyGaqjk9hCJeG6GRJh0pGd2AolE4P8eNKL0AdQOm+dLDC7FDvBHN1FqAsQe2fWsI1T4DfAf4K+D/AmAuZqsR9n40tCbAAAAAASUVORK5CYII=) no-repeat -1px -2px;}.calendar-nextyear{right:3px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAdElEQVR42u2WwQqAMAxD9/8/7W5SQyZpu52WBx4U8kirqGMYYwzhCeC1Ha6TmY4DRW8YzzsuNRdnyGaqjk9hCJeG6GRJh0pGd2AolE4P8eNKL0AdQOm+dLDC7FDvBHN1FqAsQe2fWsI1T4DfAf4K+D/AmAuZqsR9n40tCbAAAAAASUVORK5CYII=) no-repeat -49px -2px;}.calendar-body{position:relative;}.calendar-body th,.calendar-body td{text-align:center;}.calendar-day{border:0;padding:1px;cursor:pointer;-moz-border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;}.calendar-other-month{opacity:.3;filter:alpha(opacity=30);}.calendar-menu{position:absolute;top:0;left:0;width:180px;height:150px;padding:5px;font-size:12px;display:none;overflow:hidden;}.calendar-menu-year-inner{text-align:center;padding-bottom:5px;}.calendar-menu-year{width:40px;text-align:center;border-width:1px;border-style:solid;margin:0;padding:2px;font-weight:700;}.calendar-menu-prev,.calendar-menu-next{display:inline-block;width:21px;height:21px;vertical-align:top;cursor:pointer;-moz-border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;}.calendar-menu-prev{margin-right:10px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAdElEQVR42u2WwQqAMAxD9/8/7W5SQyZpu52WBx4U8kirqGMYYwzhCeC1Ha6TmY4DRW8YzzsuNRdnyGaqjk9hCJeG6GRJh0pGd2AolE4P8eNKL0AdQOm+dLDC7FDvBHN1FqAsQe2fWsI1T4DfAf4K+D/AmAuZqsR9n40tCbAAAAAASUVORK5CYII=) no-repeat 2px 2px;}.calendar-menu-next{margin-left:10px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAACm53kpAAAAdElEQVR42u2WwQqAMAxD9/8/7W5SQyZpu52WBx4U8kirqGMYYwzhCeC1Ha6TmY4DRW8YzzsuNRdnyGaqjk9hCJeG6GRJh0pGd2AolE4P8eNKL0AdQOm+dLDC7FDvBHN1FqAsQe2fWsI1T4DfAf4K+D/AmAuZqsR9n40tCbAAAAAASUVORK5CYII=) no-repeat -45px 2px;}.calendar-menu-month{text-align:center;cursor:pointer;font-weight:700;-moz-border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;}.calendar-body th,.calendar-menu-month{color:gray;}.calendar-day{color:#333;}.calendar-sunday{color:#c22;}.calendar-saturday{color:#0e0;}.calendar-today{color:#00f;}.calendar-menu-year,.calendar{border-color:#D4D4D4;}.calendar-header{background:#F2F2F2;}.calendar-body,.calendar-menu{background:#fff;}.calendar-body th{background:#F5F5F5;}.calendar-hover,.calendar-nav-hover,.calendar-menu-hover{background-color:#e6e6e6;color:#00438a;}.calendar-hover{border:1px solid #ddd;padding:0;}.calendar-selected{background-color:#0081c2;color:#fff;border:1px solid #0070a9;padding:0;}');
 
 });

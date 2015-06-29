@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./tooltip.css');
+//require('./css/tooltip.css');
 
 (function($){
 function _1(_2){

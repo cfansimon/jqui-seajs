@@ -1,4 +1,4 @@
-define("jqui/1.3.6/tooltip-debug", ["import-style/1.0.0/index-debug"], function(require, exports, module){
+define("jqui/1.3.6/tooltip-debug", [], function(require, exports, module){
 /**
  * jQuery EasyUI 1.3.6
  * 
@@ -9,7 +9,7 @@ define("jqui/1.3.6/tooltip-debug", ["import-style/1.0.0/index-debug"], function(
  *
  */
 require("jqui/1.3.6/parser-debug");
-require("jqui/1.3.6/tooltip-debug.css.js");
+//require('./css/tooltip.css');
 
 (function($){
 function _1(_2){
@@ -223,6 +223,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 
 (function($){
 	$.parser = {
+		
 		/**
 		 * parse options, including standard 'data-options' attribute.
 		 * 
@@ -284,11 +285,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerWidth()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).width(width - ($(this).outerWidth() - $(this).width()));
-			} else {
-				$(this).width(width);
-			}
+			$(this).width(width - ($(this).outerWidth() - $(this).width()));
 		});
 	};
 	
@@ -303,11 +300,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerHeight()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).height(height - ($(this).outerHeight() - $(this).height()));
-			} else {
-				$(this).height(height);
-			}
+			$(this).height(height - ($(this).outerHeight() - $(this).height()));
 		});
 	};
 	
@@ -423,9 +416,5 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 	}
 })(jQuery);
 
-
-});
-define("jqui/1.3.6/tooltip-debug.css.js", ["import-style/1.0.0/index-debug"], function(require, exports, module){
-require("import-style/1.0.0/index-debug")('.tooltip{position:absolute;display:none;z-index:9900000;outline:none;opacity:1;filter:alpha(opacity=100);padding:5px;border-width:1px;border-style:solid;-moz-border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;}.tooltip-content{font-size:12px;}.tooltip-arrow-outer,.tooltip-arrow{position:absolute;width:0;height:0;line-height:0;font-size:0;border-style:solid;border-width:6px;border-color:transparent;_border-color:tomato;_filter:chroma(color=tomato);}.tooltip-right .tooltip-arrow-outer{left:0;top:50%;margin:-6px 0 0 -13px;}.tooltip-right .tooltip-arrow{left:0;top:50%;margin:-6px 0 0 -12px;}.tooltip-left .tooltip-arrow-outer{right:0;top:50%;margin:-6px -13px 0 0;}.tooltip-left .tooltip-arrow{right:0;top:50%;margin:-6px -12px 0 0;}.tooltip-top .tooltip-arrow-outer{bottom:0;left:50%;margin:0 0 -13px -6px;}.tooltip-top .tooltip-arrow{bottom:0;left:50%;margin:0 0 -12px -6px;}.tooltip-bottom .tooltip-arrow-outer{top:0;left:50%;margin:-13px 0 0 -6px;}.tooltip-bottom .tooltip-arrow{top:0;left:50%;margin:-12px 0 0 -6px;}.tooltip{background-color:#fff;border-color:#95B8E7;color:#000;}.tooltip-right .tooltip-arrow-outer{border-right-color:#95B8E7;}.tooltip-right .tooltip-arrow{border-right-color:#fff;}.tooltip-left .tooltip-arrow-outer{border-left-color:#95B8E7;}.tooltip-left .tooltip-arrow{border-left-color:#fff;}.tooltip-top .tooltip-arrow-outer{border-top-color:#95B8E7;}.tooltip-top .tooltip-arrow{border-top-color:#fff;}.tooltip-bottom .tooltip-arrow-outer{border-bottom-color:#95B8E7;}.tooltip-bottom .tooltip-arrow{border-bottom-color:#fff;}');
 
 });

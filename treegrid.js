@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./tree.css');
+//require('./css/tree.css');
 require('./datagrid');
 
 (function($) {

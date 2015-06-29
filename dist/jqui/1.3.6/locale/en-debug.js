@@ -14,18 +14,6 @@ if ($.messager){
 	$.messager.defaults.ok = 'Ok';
 	$.messager.defaults.cancel = 'Cancel';
 }
-if ($.fn.numberbox){
-	$.fn.numberbox.defaults.missingMessage = 'This field is required.';
-}
-if ($.fn.combobox){
-	$.fn.combobox.defaults.missingMessage = 'This field is required.';
-}
-if ($.fn.combotree){
-	$.fn.combotree.defaults.missingMessage = 'This field is required.';
-}
-if ($.fn.combogrid){
-	$.fn.combogrid.defaults.missingMessage = 'This field is required.';
-}
 if ($.fn.calendar){
 	$.fn.calendar.defaults.weeks = ['S','M','T','W','T','F','S'];
 	$.fn.calendar.defaults.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -34,14 +22,12 @@ if ($.fn.datebox){
 	$.fn.datebox.defaults.currentText = 'Today';
 	$.fn.datebox.defaults.closeText = 'Close';
 	$.fn.datebox.defaults.okText = 'Ok';
-	$.fn.datebox.defaults.missingMessage = 'This field is required.';
 }
 if ($.fn.datetimebox && $.fn.datebox){
 	$.extend($.fn.datetimebox.defaults,{
 		currentText: $.fn.datebox.defaults.currentText,
 		closeText: $.fn.datebox.defaults.closeText,
-		okText: $.fn.datebox.defaults.okText,
-		missingMessage: $.fn.datebox.defaults.missingMessage
+		okText: $.fn.datebox.defaults.okText
 	});
 }
 

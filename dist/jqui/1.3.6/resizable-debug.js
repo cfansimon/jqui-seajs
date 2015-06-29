@@ -267,6 +267,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 
 (function($){
 	$.parser = {
+		
 		/**
 		 * parse options, including standard 'data-options' attribute.
 		 * 
@@ -328,11 +329,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerWidth()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).width(width - ($(this).outerWidth() - $(this).width()));
-			} else {
-				$(this).width(width);
-			}
+			$(this).width(width - ($(this).outerWidth() - $(this).width()));
 		});
 	};
 	
@@ -347,11 +344,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerHeight()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).height(height - ($(this).outerHeight() - $(this).height()));
-			} else {
-				$(this).height(height);
-			}
+			$(this).height(height - ($(this).outerHeight() - $(this).height()));
 		});
 	};
 	

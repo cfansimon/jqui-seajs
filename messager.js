@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./messager.css');
+//require('./css/messager.css');
 require('./window');
 
 (function($) {
@@ -123,7 +123,6 @@ require('./window');
         var win = $("<div class=\"messager-body\"></div>").appendTo("body");
         win.append(_11);
         if (buttons) {
-            console.log(buttons);
             var tb = $("<div class=\"messager-button-group\"></div>").appendTo(win);
             for (var name in buttons) {
                 var btn = $("<a class=\"messager-button\"></a>");
@@ -230,7 +229,7 @@ require('./window');
         },
     };
     $.messager.defaults = {
-        ok: "Ok",
-        cancel: "Cancel"
+        ok: "确定",
+        cancel: "取消"
     };
 })(jQuery);

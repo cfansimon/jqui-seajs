@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./window.css');
+//require('./css/window.css');
 require('./resizable');
 require('./draggable');
 require('./panel');

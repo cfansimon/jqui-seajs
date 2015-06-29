@@ -1,4 +1,4 @@
-define("jqui/1.3.6/numberbox-debug", ["import-style/1.0.0/index-debug"], function(require, exports, module){
+define("jqui/1.3.6/numberbox-debug", [], function(require, exports, module){
 /**
  * jQuery EasyUI 1.3.6
  *
@@ -9,7 +9,7 @@ define("jqui/1.3.6/numberbox-debug", ["import-style/1.0.0/index-debug"], functio
  *
  */
 require("jqui/1.3.6/parser-debug");
-require("jqui/1.3.6/numberbox-debug.css.js");
+//require('./css/numberbox.css');
 
 (function($) {
     function _1(_2) {
@@ -295,6 +295,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 
 (function($){
 	$.parser = {
+		
 		/**
 		 * parse options, including standard 'data-options' attribute.
 		 * 
@@ -356,11 +357,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerWidth()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).width(width - ($(this).outerWidth() - $(this).width()));
-			} else {
-				$(this).width(width);
-			}
+			$(this).width(width - ($(this).outerWidth() - $(this).width()));
 		});
 	};
 	
@@ -375,11 +372,7 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 			return this.outerHeight()||0;
 		}
 		return this.each(function(){
-			if ($._boxModel){
-				$(this).height(height - ($(this).outerHeight() - $(this).height()));
-			} else {
-				$(this).height(height);
-			}
+			$(this).height(height - ($(this).outerHeight() - $(this).height()));
 		});
 	};
 	
@@ -495,9 +488,5 @@ define("jqui/1.3.6/parser-debug", [], function(require, exports, module){
 	}
 })(jQuery);
 
-
-});
-define("jqui/1.3.6/numberbox-debug.css.js", ["import-style/1.0.0/index-debug"], function(require, exports, module){
-require("import-style/1.0.0/index-debug")('.numberbox{border:1px solid #ccc;margin:0;padding:0 2px;vertical-align:middle;}');
 
 });

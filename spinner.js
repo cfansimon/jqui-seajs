@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./spinner.css');
+//require('./css/spinner.css');
 
 (function($) {
     function _1(_2) {

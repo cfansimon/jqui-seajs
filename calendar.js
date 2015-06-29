@@ -12,7 +12,7 @@
  * 
  */
 require('./parser');
-require('./calendar.css');
+//require('./css/calendar.css');
 
 (function($){
 	
@@ -434,8 +434,8 @@ require('./calendar.css');
 		fit:false,
 		border:true,
 		firstDay:0,
-		weeks:['S','M','T','W','T','F','S'],
-		months:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+		weeks:['日','一','二','三','四','五','六'],
+		months:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
 		year:new Date().getFullYear(),
 		month:new Date().getMonth()+1,
 		current:(function(){

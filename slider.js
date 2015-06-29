@@ -9,7 +9,7 @@
  */
 
 require('./parser');
-require('./slider.css');
+//require('./css/slider.css');
 require('./draggable');
 
 (function($){

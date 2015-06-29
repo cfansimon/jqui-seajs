@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./tree.css');
+//require('./css/tree.css');
 require('./draggable');
 require('./droppable');
 (function($) {
@@ -139,7 +139,7 @@ require('./droppable');
                 _14.onStartDrag.call(_12, _c(_12, this));
                 var _18 = _c(_12, this);
                 if (_18.id == undefined) {
-                    _18.id = "easyui_tree_node_id_temp";
+                    _18.id = "jqui_tree_node_id_temp";
                     _56(_12, _18);
                 }
                 _13.draggingNodeId = _18.id;
@@ -164,7 +164,7 @@ require('./droppable');
                 }
                 _13.disabledNodes = [];
                 var _19 = _cd(_12, _13.draggingNodeId);
-                if (_19 && _19.id == "easyui_tree_node_id_temp") {
+                if (_19 && _19.id == "jqui_tree_node_id_temp") {
                     _19.id = "";
                     _56(_12, _19);
                 }
@@ -992,19 +992,19 @@ require('./droppable');
         _56(_ef, _f2);
         _f1.onCancelEdit.call(_ef, _f2);
     };
-    $.fn.tree = function(_f3, _f4) {
-        if (typeof _f3 == "string") {
-            return $.fn.tree.methods[_f3](this, _f4);
+    $.fn.tree = function(options, param) {
+        if (typeof options == "string") {
+            return $.fn.tree.methods[options](this, param);
         }
-        var _f3 = _f3 || {};
+        var options = options || {};
         return this.each(function() {
             var _f5 = $.data(this, "tree");
             var _f6;
             if (_f5) {
-                _f6 = $.extend(_f5.options, _f3);
+                _f6 = $.extend(_f5.options, options);
                 _f5.options = _f6;
             } else {
-                _f6 = $.extend({}, $.fn.tree.defaults, $.fn.tree.parseOptions(this), _f3);
+                _f6 = $.extend({}, $.fn.tree.defaults, $.fn.tree.parseOptions(this), options);
                 $.data(this, "tree", {
                     options: _f6,
                     tree: _1(this),
@@ -1227,7 +1227,7 @@ require('./droppable');
                     if (item.state != "open" && item.state != "closed") {
                         item.state = "open";
                     }
-                    item.domId = "_easyui_tree_" + _117++;
+                    item.domId = "_jqui_tree_" + _117++;
                     cc.push("<li>");
                     cc.push("<div id=\"" + item.domId + "\" class=\"tree-node\">");
                     for (var j = 0; j < _11c; j++) {

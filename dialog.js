@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./dialog.css');
+//require('./css/dialog.css');
 require('./window');
 (function($) {
     function createContentPanel(target) {

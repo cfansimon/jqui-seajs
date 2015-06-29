@@ -1,0 +1,67 @@
+.spinner {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  height: 28px!important;
+}
+
+.spinner .spinner-text {
+  line-height: 16px!important;
+  height: 16px!important;
+  margin: 0;
+  padding: 5px 2px;
+  *margin-top: -1px;
+  *height: 12px!important;
+  *line-height: 12px!important;
+  _height: 12px!important;
+  _line-height: 12px!important;
+  vertical-align: baseline;
+  border: #ccc solid 0;
+  border-width: 1px 0 1px 1px; 
+  border-radius: 4px 0 0 4px;
+}
+
+.spinner-arrow {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.spinner-arrow-up,
+.spinner-arrow-down {
+  display: block;
+  width: 18px;
+  height: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+}
+
+.spinner-arrow-hover {
+  background-color: #f0f0f0;
+}
+
+.spinner-arrow-up {
+  border-width: 1px 1px 0 1px;
+  border-radius: 0 4px 0 0;
+  background: url(../images/spinner_arrows.png) no-repeat 1px center;
+}
+
+.spinner-arrow-down {
+  border-width: 0 1px 1px 1px;
+  border-radius: 0 0 4px 0;
+  background: url(../images/spinner_arrows.png) no-repeat -15px center;
+}
+
+.spinner-arrow {
+  background-color: #F2F2F2;
+}
+
+.spinner-arrow-hover {
+  background-color: #e6e6e6;
+}

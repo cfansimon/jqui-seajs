@@ -8,15 +8,15 @@
  *
  */
 require('./parser');
-require('./combo.css');
+//require('./css/combo.css');
 require('./panel');
 
 (function($) {
     function resize(target, width) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
-        var cb = combo.combo;
-        var panel = combo.panel;
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var combo = state.combo;
+        var panel = state.panel;
         if (width) {
             opts.width = width;
         }
@@ -27,33 +27,37 @@ require('./panel');
             opts.width = c.outerWidth();
             c.remove();
         }
-        cb.appendTo("body");
-        var comboText = cb.find("input.combo-text");
-        var comboArrow = cb.find(".combo-arrow");
+        combo.appendTo("body");
+        var comboText = combo.find("input.combo-text");
+        var comboArrow = combo.find(".combo-arrow");
         var comboArrowIcon = comboArrow.find(".combo-arrow-icon");
-        var comboArrowWidth = opts.hasDownArrow ? comboArrow._outerWidth() : 0;
-        cb._outerWidth(opts.width)._outerHeight(opts.height);
-        comboText._outerWidth(cb.width() - 5 - comboArrowWidth);
+        var comboArrowWidth = 0;
+        if(opts.hasDownArrow){
+            var comboArrowWidth = comboArrow._outerWidth()!=0?comboArrow._outerWidth():28;
+        }
+        combo._outerWidth(opts.width).height(opts.height);
+        comboText._outerWidth(opts.width - 11 - comboArrowWidth);
+        //todo messager引入时，导致combo.width和height出错，具体看combobox/actions.html
         comboText.css({
-            padding: '0 2px',
+            padding: '0 5px',
             'border-right': '1px solid #ccc',
-            height: cb.height() + "px",
-            lineHeight: cb.height() + "px"
+            height: opts.height + "px",
+            lineHeight: opts.height + "px"
         });
-        comboArrow._outerHeight(cb.height());
-        comboArrowIcon._outerHeight(cb.height());
+        comboArrow._outerHeight(opts.height);
+        comboArrowIcon._outerHeight(opts.height);
         panel.panel("resize", {
-            width: (opts.panelWidth ? opts.panelWidth : cb.outerWidth()),
+            width: (opts.panelWidth ? opts.panelWidth : opts.width),
             height: opts.panelHeight
         });
-        cb.insertAfter(target);
+        combo.insertAfter(target);
     };
 
-    function _b(_c) {
-        $(_c).addClass("combo-f").hide();
-        var _d = $("<span class=\"combo\">" + "<input type=\"text\" class=\"combo-text\" autocomplete=\"off\">" + "<span class=\"combo-arrow\"><span class=\"combo-arrow-icon\"></span></span>" + "<input type=\"hidden\" class=\"combo-value\">" + "</span>").insertAfter(_c);
-        var _e = $("<div class=\"combo-panel\"></div>").appendTo("body");
-        _e.panel({
+    function create(target) {
+        $(target).addClass("combo-f").hide();
+        var combo = $("<span class=\"combo\">" + "<input type=\"text\" class=\"combo-text\">" + "<span class=\"combo-arrow\"><span class=\"combo-arrow-icon\"></span></span>" + "<input type=\"hidden\" class=\"combo-value\">" + "</span>").insertAfter(target);
+        var panel = $("<div class=\"combo-panel\"></div>").appendTo("body");
+        panel.panel({
             doSize: false,
             closed: true,
             cls: "combo-p",
@@ -63,59 +67,54 @@ require('./panel');
             },
             onOpen: function() {
                 var p = $(this).panel("panel");
-                // @todo
-                if ($.fn.menu) {
-                    p.css("z-index", $.fn.menu.defaults.zIndex++);
-                } else {
-                    if ($.fn.window) {
-                        p.css("z-index", $.fn.window.defaults.zIndex++);
-                    }
+                if ($.fn.window) {
+                    p.css("z-index", $.fn.window.defaults.zIndex++);
                 }
                 $(this).panel("resize");
             },
             onBeforeClose: function() {
-                _1c(this);
+                hidePanelEach(this);
             },
             onClose: function() {
-                var _f = $.data(_c, "combo");
-                if (_f) {
-                    _f.options.onHidePanel.call(_c);
+                var _state = $.data(target, "combo");
+                if (_state) {
+                    _state.options.onHidePanel.call(target);
                 }
             }
         });
-        var _10 = $(_c).attr("name");
-        if (_10) {
-            _d.find("input.combo-value").attr("name", _10);
-            $(_c).removeAttr("name").attr("comboName", _10);
+        var name = $(target).attr("name");
+        if (name) {
+            combo.find("input.combo-value").attr("name", name);
+            $(target).removeAttr("name").attr("comboName", name);
         }
         return {
-            combo: _d,
-            panel: _e
+            combo: combo,
+            panel: panel
         };
     };
 
-    function _11(target) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
-        var cb = combo.combo;
+    function initStyle(target) {
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var combo = state.combo;
         if (opts.hasDownArrow) {
-            cb.find(".combo-arrow").show();
+            combo.find(".combo-arrow").show();
         } else {
-            cb.find(".combo-arrow").hide();
+            combo.find(".combo-arrow").hide();
         }
         setDisabled(target, opts.disabled);
         setReadonly(target, opts.readonly);
     };
 
-    function _18(target) {
-        var combo = $.data(target, "combo");
-        combo.panel.panel("destroy");
-        combo.combo.remove();
+    function destroy(target) {
+        var state = $.data(target, "combo");
+        state.panel.panel("destroy");
+        state.combo.remove();
         $(target).remove();
     };
 
-    function _1c(_1d) {
-        $(_1d).find(".combo-f").each(function() {
+    function hidePanelEach(target) {
+        $(target).find(".combo-f").each(function() {
             var p = $(this).combo("panel");
             if (p.is(":visible")) {
                 p.panel("close");
@@ -123,17 +122,17 @@ require('./panel');
         });
     };
 
-    function _1e(target) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
-        var panel = combo.panel;
-        var cb = combo.combo;
-        var comboText = cb.find(".combo-text");
-        var comboArrow = cb.find(".combo-arrow");
+    function init(target) {
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var panel = state.panel;
+        var combo = state.combo;
+        var comboText = combo.find(".combo-text");
+        var comboArrow = combo.find(".combo-arrow");
         $(document).unbind(".combo").bind("mousedown.combo", function(e) {
             var p = $(e.target).closest("span.combo,div.combo-p");
             if (p.length) {
-                _1c(p);
+                hidePanelEach(p);
                 return;
             }
             $("body>div.combo-p>div.combo-panel:visible").panel("close");
@@ -143,7 +142,7 @@ require('./panel');
         if (!opts.disabled && !opts.readonly) {
             comboText.bind("click.combo", function(e) {
                 if (!opts.editable) {
-                    _26.call(this);
+                    _displayPanel.call(this);
                 } else {
                     var p = $(this).closest("div.combo-panel");
                     $("div.combo-panel:visible").not(panel).not(p).panel("close");
@@ -172,13 +171,13 @@ require('./panel');
                         break;
                     default:
                         if (opts.editable) {
-                            if (combo.timer) {
-                                clearTimeout(combo.timer);
+                            if (state.timer) {
+                                clearTimeout(state.timer);
                             }
-                            combo.timer = setTimeout(function() {
+                            state.timer = setTimeout(function() {
                                 var q = comboText.val();
-                                if (combo.previousValue != q) {
-                                    combo.previousValue = q;
+                                if (state.previousValue != q) {
+                                    state.previousValue = q;
                                     $(target).combo("showPanel");
                                     opts.keyHandler.query.call(target, comboText.val(), e);
                                 }
@@ -187,7 +186,7 @@ require('./panel');
                 }
             });
             comboArrow.bind("click.combo", function() {
-                _26.call(this);
+                _displayPanel.call(this);
             }).bind("mouseenter.combo", function() {
                 $(this).addClass("combo-arrow-hover");
             }).bind("mouseleave.combo", function() {
@@ -195,7 +194,7 @@ require('./panel');
             });
         }
 
-        function _26() {
+        function _displayPanel() {
             if (panel.is(":visible")) {
                 hidePanel(target);
             } else {
@@ -208,10 +207,10 @@ require('./panel');
     };
 
     function showPanel(target) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
-        var cb = combo.combo;
-        var panel = combo.panel;
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var combo = state.combo;
+        var panel = state.panel;
         panel.panel("move", {
             left: getPanelLeft(),
             top: getPanelTop()
@@ -231,9 +230,9 @@ require('./panel');
         })();
 
         function getPanelLeft() {
-            var left = cb.offset().left;
+            var left = combo.offset().left;
             if (opts.panelAlign == "right") {
-                left += cb._outerWidth() - panel._outerWidth();
+                left += combo._outerWidth() - panel._outerWidth();
             }
             if (left + panel._outerWidth() > $(window)._outerWidth() + $(document).scrollLeft()) {
                 left = $(window)._outerWidth() + $(document).scrollLeft() - panel._outerWidth();
@@ -245,12 +244,12 @@ require('./panel');
         };
 
         function getPanelTop() {
-            var top = cb.offset().top + cb._outerHeight();
+            var top = combo.offset().top + combo._outerHeight();
             if (top + panel._outerHeight() > $(window)._outerHeight() + $(document).scrollTop()) {
-                top = cb.offset().top - panel._outerHeight();
+                top = combo.offset().top - panel._outerHeight();
             }
             if (top < $(document).scrollTop()) {
-                top = cb.offset().top + cb._outerHeight();
+                top = combo.offset().top + combo._outerHeight();
             }
             return top;
         };
@@ -262,40 +261,40 @@ require('./panel');
     };
 
     function setDisabled(target, mode) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
-        var cb = combo.combo;
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var combo = state.combo;
         if (mode) {
             opts.disabled = true;
             $(target).attr("disabled", true);
-            cb.find(".combo-value").attr("disabled", true);
-            cb.find(".combo-text").attr("disabled", true);
+            combo.find(".combo-value").attr("disabled", true);
+            combo.find(".combo-text").attr("disabled", true);
         } else {
             opts.disabled = false;
             $(target).removeAttr("disabled");
-            cb.find(".combo-value").removeAttr("disabled");
-            cb.find(".combo-text").removeAttr("disabled");
+            combo.find(".combo-value").removeAttr("disabled");
+            combo.find(".combo-text").removeAttr("disabled");
         }
     };
 
     function setReadonly(target, mode) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
+        var state = $.data(target, "combo");
+        var opts = state.options;
         opts.readonly = mode == undefined ? true : mode;
         var readonly = opts.readonly ? true : (!opts.editable);
-        combo.combo.find(".combo-text").attr("readonly", readonly).css("cursor", readonly ? "pointer" : "");
+        state.combo.find(".combo-text").attr("readonly", readonly).css("cursor", readonly ? "pointer" : "");
     };
 
     function clear(target) {
-        var combo = $.data(target, "combo");
-        var opts = combo.options;
-        var cb = combo.combo;
+        var state = $.data(target, "combo");
+        var opts = state.options;
+        var combo = state.combo;
         if (opts.multiple) {
-            cb.find("input.combo-value").remove();
+            combo.find("input.combo-value").remove();
         } else {
-            cb.find("input.combo-value").val("");
+            combo.find("input.combo-value").val("");
         }
-        cb.find("input.combo-text").val("");
+        combo.find("input.combo-text").val("");
     };
 
     function getText(target) {
@@ -304,11 +303,11 @@ require('./panel');
     };
 
     function setText(target, text) {
-        var combo = $.data(target, "combo");
-        var comboText = combo.combo.find("input.combo-text");
+        var state = $.data(target, "combo");
+        var comboText = state.combo.find("input.combo-text");
         if (comboText.val() != text) {
             comboText.val(text);
-            combo.previousValue = text;
+            state.previousValue = text;
         }
     };
 
@@ -366,26 +365,26 @@ require('./panel');
         setValues(target, [value]);
     };
 
-    function _60(_61) {
-        var _62 = $.data(_61, "combo").options;
-        var fn = _62.onChange;
-        _62.onChange = function() {};
-        if (_62.multiple) {
-            if (_62.value) {
-                if (typeof _62.value == "object") {
-                    setValues(_61, _62.value);
+    function _60(target) {
+        var opts = $.data(target, "combo").options;
+        var fn = opts.onChange;
+        opts.onChange = function() {};
+        if (opts.multiple) {
+            if (opts.value) {
+                if (typeof opts.value == "object") {
+                    setValues(target, opts.value);
                 } else {
-                    setValue(_61, _62.value);
+                    setValue(target, opts.value);
                 }
             } else {
-                setValues(_61, []);
+                setValues(target, []);
             }
-            _62.originalValue = getValues(_61);
+            opts.originalValue = getValues(target);
         } else {
-            setValue(_61, _62.value);
-            _62.originalValue = _62.value;
+            setValue(target, opts.value);
+            opts.originalValue = opts.value;
         }
-        _62.onChange = fn;
+        opts.onChange = fn;
     };
     $.fn.combo = function(options, param) {
         if (typeof options == "string") {
@@ -393,12 +392,12 @@ require('./panel');
         }
         options = options || {};
         return this.each(function() {
-            var _67 = $.data(this, "combo");
-            if (_67) {
-                $.extend(_67.options, options);
+            var state = $.data(this, "combo");
+            if (state) {
+                $.extend(state.options, options);
             } else {
-                var r = _b(this);
-                _67 = $.data(this, "combo", {
+                var r = create(this);
+                state = $.data(this, "combo", {
                     options: $.extend({}, $.fn.combo.defaults, $.fn.combo.parseOptions(this), options),
                     combo: r.combo,
                     panel: r.panel,
@@ -406,9 +405,9 @@ require('./panel');
                 });
                 $(this).removeAttr("disabled");
             }
-            _11(this);
+            initStyle(this);
             resize(this);
-            _1e(this);
+            init(this);
             _60(this);
         });
     };
@@ -424,7 +423,7 @@ require('./panel');
         },
         destroy: function(jq) {
             return jq.each(function() {
-                _18(this);
+                destroy(this);
             });
         },
         resize: function(jq, width) {
@@ -445,19 +444,19 @@ require('./panel');
         disable: function(jq) {
             return jq.each(function() {
                 setDisabled(this, true);
-                _1e(this);
+                init(this);
             });
         },
         enable: function(jq) {
             return jq.each(function() {
                 setDisabled(this, false);
-                _1e(this);
+                init(this);
             });
         },
         readonly: function(jq, mode) {
             return jq.each(function() {
                 setReadonly(this, mode);
-                _1e(this);
+                init(this);
             });
         },
         clear: function(jq) {

@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./numberbox.css');
+//require('./css/numberbox.css');
 
 (function($) {
     function _1(_2) {

@@ -16,9 +16,9 @@
 	<div style="margin:20px 0;"></div>
 	<input class="jq-datebox" required data-options="validType:'md[\'10/11/2012\']'"></input>
 	<script type="text/javascript">
-		seajs.use(['jqui.databox','jqui.validatebox'], function() {
+		seajs.use(['jqui.datebox','jqui.validatebox'], function() {
 
-			$('.jq-databox').databox();
+			$('.jq-datebox').datebox();
 			
 			$.extend($.fn.validatebox.defaults.rules, {
 				md: {

@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./combobox.css');
+//require('./css/combobox.css');
 require('./combo');
 
 (function($){

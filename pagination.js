@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./pagination.css');
+//require('./css/pagination.css');
 
 (function($) {
     function _1(_2) {
@@ -287,9 +287,9 @@ require('./pagination.css');
         onBeforeRefresh: function(_2b, _2c) {},
         onRefresh: function(_2d, _2e) {},
         onChangePageSize: function(_2f) {},
-        beforePageText: "Page",
-        afterPageText: "of {pages}",
-        displayMsg: "Displaying {from} to {to} of {total} items",
+        beforePageText: "第",
+        afterPageText: "共{pages}页",
+        displayMsg: "显示{from}到{to},共{total}记录",
         nav: {
             first: {
                 iconCls: "pagination-first",

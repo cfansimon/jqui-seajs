@@ -8,7 +8,7 @@
  *
  */
 require('./parser');
-require('./panel.css');
+//require('./css/panel.css');
 
 (function($) {
     $.fn._remove = function() {
