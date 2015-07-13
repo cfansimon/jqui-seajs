@@ -205,9 +205,6 @@ require('./parser');
         t.find(".combo-f").each(function() {
             $(this).combo("destroy");
         });
-        t.find(".tooltip-f").each(function() {
-            $(this).tooltip("destroy");
-        });
         t.children("div").each(function() {
             $(this)._fit(false);
         });

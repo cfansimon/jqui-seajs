@@ -12,192 +12,204 @@ require('./combo');
 require('./tree');
 
 (function($) {
-    function _1(_2) {
-        var _3 = $.data(_2, "combotree");
-        var _4 = _3.options;
-        var _5 = _3.tree;
-        $(_2).addClass("combotree-f");
-        $(_2).combo(_4);
-        var _6 = $(_2).combo("panel");
-        if (!_5) {
-            _5 = $("<ul></ul>").appendTo(_6);
-            $.data(_2, "combotree").tree = _5;
+    function createTree(target) {
+        var state = $.data(target, "combotree");
+        var opts = state.options;
+        var tree = state.tree;
+        $(target).addClass("combotree-f");
+        $(target).combo(opts);
+        var panel = $(target).combo("panel");
+        if (!tree) {
+            tree = $("<ul></ul>").appendTo(panel);
+            $.data(target, "combotree").tree = tree;
         }
-        _5.tree($.extend({}, _4, {
-            checkbox: _4.multiple,
-            onLoadSuccess: function(_7, _8) {
-                var _9 = $(_2).combotree("getValues");
-                if (_4.multiple) {
-                    var _a = _5.tree("getChecked");
+        tree.tree($.extend({}, opts, {
+            checkbox: opts.multiple,
+            onLoadSuccess: function(node, data) {
+                var values = $(target).combotree("getValues");
+                if (opts.multiple) {
+                    var _a = tree.tree("getChecked");
                     for (var i = 0; i < _a.length; i++) {
                         var id = _a[i].id;
                         (function() {
-                            for (var i = 0; i < _9.length; i++) {
-                                if (id == _9[i]) {
+                            for (var i = 0; i < values.length; i++) {
+                                if (id == values[i]) {
                                     return;
                                 }
                             }
-                            _9.push(id);
+                            values.push(id);
                         })();
                     }
                 }
-                var _b = $(this).tree("options");
-                var _c = _b.onCheck;
-                var _d = _b.onSelect;
-                _b.onCheck = _b.onSelect = function() {};
-                $(_2).combotree("setValues", _9);
-                _b.onCheck = _c;
-                _b.onSelect = _d;
-                _4.onLoadSuccess.call(this, _7, _8);
+                var treeOpts = $(this).tree("options");
+                var checkEven = treeOpts.onCheck;
+                var selectEven = treeOpts.onSelect;
+                treeOpts.onCheck = treeOpts.onSelect = function() {};
+                $(target).combotree("setValues", values);
+                treeOpts.onCheck = checkEven;
+                treeOpts.onSelect = selectEven;
+                opts.onLoadSuccess.call(this, node, data);
             },
-            onClick: function(_e) {
-                if (_4.multiple) {
-                    $(this).tree(_e.checked ? "uncheck" : "check", _e.target);
+            onClick: function(node) {
+                if (opts.multiple) {
+                    $(this).tree(node.checked ? "uncheck" : "check", node.target);
                 } else {
-                    $(_2).combo("hidePanel");
+                    $(target).combo("hidePanel");
                 }
-                _11(_2);
-                _4.onClick.call(this, _e);
+                selectNode(target);
+                opts.onClick.call(this, node);
             },
-            onCheck: function(_f, _10) {
-                _11(_2);
-                _4.onCheck.call(this, _f, _10);
+            onCheck: function(node, checked) {
+                selectNode(target);
+                opts.onCheck.call(this, node, checked);
             }
         }));
     };
 
-    function _11(_12) {
-        var _13 = $.data(_12, "combotree");
-        var _14 = _13.options;
-        var _15 = _13.tree;
+    function selectNode(target) {
+        var state = $.data(target, "combotree");
+        var opts = state.options;
+        var tree = state.tree;
         var vv = [],
             ss = [];
-        if (_14.multiple) {
-            var _16 = _15.tree("getChecked");
-            for (var i = 0; i < _16.length; i++) {
-                vv.push(_16[i].id);
-                ss.push(_16[i].text);
+        if (opts.multiple) {
+            var nodes = tree.tree("getChecked");
+            for (var i = 0; i < nodes.length; i++) {
+                vv.push(nodes[i].id);
+                ss.push(nodes[i].text);
             }
         } else {
-            var _17 = _15.tree("getSelected");
-            if (_17) {
-                vv.push(_17.id);
-                ss.push(_17.text);
+            var node = tree.tree("getSelected");
+            if (node) {
+                vv.push(node.id);
+                if(!opts.showParentsText){
+                    ss.push(node.text);
+                }else{
+                    var parentNodes = tree.tree("getParents",node.target);
+                    var texts = [];
+                    for(var i in parentNodes) {
+                        texts.push(parentNodes[i].text);
+                    }
+                    texts.push(node.text);
+                    ss.push(texts.join(opts.showParentsTextSeparator));
+                }
             }
         }
-        $(_12).combo("setValues", vv).combo("setText", ss.join(_14.separator));
+        $(target).combo("setValues", vv).combo("setText", ss.join(opts.separator));
     };
 
-    function _18(_19, _1a) {
-        var _1b = $.data(_19, "combotree").options;
-        var _1c = $.data(_19, "combotree").tree;
-        _1c.find("span.tree-checkbox").addClass("tree-checkbox0").removeClass("tree-checkbox1 tree-checkbox2");
+    function setValues(target, values) {
+        var opts = $.data(target, "combotree").options;
+        var tree = $.data(target, "combotree").tree;
+        tree.find("span.tree-checkbox").addClass("tree-checkbox0").removeClass("tree-checkbox1 tree-checkbox2");
         var vv = [],
             ss = [];
-        for (var i = 0; i < _1a.length; i++) {
-            var v = _1a[i];
+        for (var i = 0; i < values.length; i++) {
+            var v = values[i];
             var s = v;
-            var _1d = _1c.tree("find", v);
-            if (_1d) {
-                s = _1d.text;
-                _1c.tree("check", _1d.target);
-                _1c.tree("select", _1d.target);
+            var node = tree.tree("find", v);
+            if (node) {
+                s = node.text;
+                tree.tree("check", node.target);
+                tree.tree("select", node.target);
             }
             vv.push(v);
             ss.push(s);
         }
-        $(_19).combo("setValues", vv).combo("setText", ss.join(_1b.separator));
+        $(target).combo("setValues", vv).combo("setText", ss.join(opts.separator));
     };
-    $.fn.combotree = function(_1e, _1f) {
-        if (typeof _1e == "string") {
-            var _20 = $.fn.combotree.methods[_1e];
-            if (_20) {
-                return _20(this, _1f);
+    $.fn.combotree = function(options, param) {
+        if (typeof options == "string") {
+            var method = $.fn.combotree.methods[options];
+            if (method) {
+                return method(this, param);
             } else {
-                return this.combo(_1e, _1f);
+                return this.combo(options, param);
             }
         }
-        _1e = _1e || {};
+        options = options || {};
         return this.each(function() {
-            var _21 = $.data(this, "combotree");
-            if (_21) {
-                $.extend(_21.options, _1e);
+            var state = $.data(this, "combotree");
+            if (state) {
+                $.extend(state.options, options);
             } else {
                 $.data(this, "combotree", {
-                    options: $.extend({}, $.fn.combotree.defaults, $.fn.combotree.parseOptions(this), _1e)
+                    options: $.extend({}, $.fn.combotree.defaults, $.fn.combotree.parseOptions(this), options)
                 });
             }
-            _1(this);
+            createTree(this);
         });
     };
     $.fn.combotree.methods = {
         options: function(jq) {
-            var _22 = jq.combo("options");
+            var opts = jq.combo("options");
             return $.extend($.data(jq[0], "combotree").options, {
-                originalValue: _22.originalValue,
-                disabled: _22.disabled,
-                readonly: _22.readonly
+                originalValue: opts.originalValue,
+                disabled: opts.disabled,
+                readonly: opts.readonly
             });
         },
         tree: function(jq) {
             return $.data(jq[0], "combotree").tree;
         },
-        loadData: function(jq, _23) {
+        loadData: function(jq, data) {
             return jq.each(function() {
-                var _24 = $.data(this, "combotree").options;
-                _24.data = _23;
-                var _25 = $.data(this, "combotree").tree;
-                _25.tree("loadData", _23);
+                var opts = $.data(this, "combotree").options;
+                opts.data = data;
+                var tree = $.data(this, "combotree").tree;
+                tree.tree("loadData", data);
             });
         },
         reload: function(jq, url) {
             return jq.each(function() {
-                var _26 = $.data(this, "combotree").options;
-                var _27 = $.data(this, "combotree").tree;
+                var opts = $.data(this, "combotree").options;
+                var tree = $.data(this, "combotree").tree;
                 if (url) {
-                    _26.url = url;
+                    opts.url = url;
                 }
-                _27.tree({
-                    url: _26.url
+                tree.tree({
+                    url: opts.url
                 });
             });
         },
-        setValues: function(jq, _28) {
+        setValues: function(jq, values) {
             return jq.each(function() {
-                _18(this, _28);
+                setValues(this, values);
             });
         },
-        setValue: function(jq, _29) {
+        setValue: function(jq, values) {
             return jq.each(function() {
-                _18(this, [_29]);
+                setValues(this, [values]);
             });
         },
         clear: function(jq) {
             return jq.each(function() {
-                var _2a = $.data(this, "combotree").tree;
-                _2a.find("div.tree-node-selected").removeClass("tree-node-selected");
-                var cc = _2a.tree("getChecked");
+                var state = $.data(this, "combotree").tree;
+                state.find("div.tree-node-selected").removeClass("tree-node-selected");
+                var cc = state.tree("getChecked");
                 for (var i = 0; i < cc.length; i++) {
-                    _2a.tree("uncheck", cc[i].target);
+                    state.tree("uncheck", cc[i].target);
                 }
                 $(this).combo("clear");
             });
         },
         reset: function(jq) {
             return jq.each(function() {
-                var _2b = $(this).combotree("options");
-                if (_2b.multiple) {
-                    $(this).combotree("setValues", _2b.originalValue);
+                var opts = $(this).combotree("options");
+                if (opts.multiple) {
+                    $(this).combotree("setValues", opts.originalValue);
                 } else {
-                    $(this).combotree("setValue", _2b.originalValue);
+                    $(this).combotree("setValue", opts.originalValue);
                 }
             });
         }
     };
-    $.fn.combotree.parseOptions = function(_2c) {
-        return $.extend({}, $.fn.combo.parseOptions(_2c), $.fn.tree.parseOptions(_2c));
+    $.fn.combotree.parseOptions = function(target) {
+        return $.extend({}, $.fn.combo.parseOptions(target), $.fn.tree.parseOptions(target));
     };
     $.fn.combotree.defaults = $.extend({}, $.fn.combo.defaults, $.fn.tree.defaults, {
-        editable: false
+        editable: false,
+        showParentsText: false,
+        showParentsTextSeparator: ' > '
     });
 })(jQuery);

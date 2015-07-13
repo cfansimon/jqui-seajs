@@ -20,9 +20,7 @@ seajs.config({
         'jqui.slider': 'jqui/1.3.6/slider',
         'jqui.spinner': 'jqui/1.3.6/spinner',
         'jqui.timespinner': 'jqui/1.3.6/timespinner',
-        'jqui.tooltip': 'jqui/1.3.6/tooltip',
         'jqui.tree': 'jqui/1.3.6/tree',
-        'jqui.treegrid': 'jqui/1.3.6/treegrid',
         'jqui.window': 'jqui/1.3.6/window',
         'jqui.css': 'jqui/1.3.6/all.css'
     },

@@ -16,9 +16,7 @@
   "spm": {
     "output": [
       "*.js",
-      "locale/*.js",
-      "all.css",
-      "images/*"
+      "locale/*.js"
     ],
     "dependencies": {
     },

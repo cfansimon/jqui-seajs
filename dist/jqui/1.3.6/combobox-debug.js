@@ -388,11 +388,11 @@ require("jqui/1.3.6/combo-debug");
 	
 	$.fn.combobox.methods = {
 		options: function(jq){
-			var copts = jq.combo('options');
+			var opts = jq.combo('options');
 			return $.extend($.data(jq[0], 'combobox').options, {
-				originalValue: copts.originalValue,
-				disabled: copts.disabled,
-				readonly: copts.readonly
+				originalValue: opts.originalValue,
+				disabled: opts.disabled,
+				readonly: opts.readonly
 			});
 		},
 		getData: function(jq){
@@ -1519,9 +1519,6 @@ require("jqui/1.3.6/parser-debug");
         var t = $(target);
         t.find(".combo-f").each(function() {
             $(this).combo("destroy");
-        });
-        t.find(".tooltip-f").each(function() {
-            $(this).tooltip("destroy");
         });
         t.children("div").each(function() {
             $(this)._fit(false);
