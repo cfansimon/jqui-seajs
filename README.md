@@ -1,6 +1,10 @@
 # jqui [![spm version](http://spmjs.io/badge/jqui)](http://spmjs.io/package/jqui)
 
 ---
+2016年国庆更新：
+* spm早就挂了，公司项目也正在去seajs化，转向webpack工程化方案，本库停止维护，仅供学习
+
+---
 
 修改自easyui1.3.6，人工还原部分插件源码，删除不常用组件及依赖
 
